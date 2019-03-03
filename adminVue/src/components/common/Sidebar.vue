@@ -60,15 +60,37 @@
                             }
                         ]
                     },
-                     {
+                    {
                         icon: 'el-icon-lx-cascades',
                         index: '3',
+                        title: '栏目管理',
+                        subs:[
+                            {
+                                icon: 'el-icon-lx-cascades',
+                                index: 'programaTable',
+                                title: '栏目发布'
+                            },
+                            {
+                                icon: 'el-icon-lx-cascades',
+                                index: 'programaTable',
+                                title: '栏目审核'
+                            }
+                        ]
+                    },
+                    {
+                        icon: 'el-icon-lx-cascades',
+                        index: '4',
                         title: '音乐管理',
                         subs:[
                             {
                                 icon: 'el-icon-lx-cascades',
                                 index: 'musicTable',
                                 title: '音乐列表'
+                            },
+                            {
+                                icon: 'el-icon-lx-cascades',
+                                index: 'singerTable',
+                                title: '歌手列表'
                             },
                             {
                                 icon: 'el-icon-lx-cascades',
@@ -79,7 +101,7 @@
                     },
                     {
                         icon: 'el-icon-lx-cascades',
-                        index: '4',
+                        index: '5',
                         title: '评论管理',
                         subs:[
                             {
@@ -92,7 +114,7 @@
                     },
                     {
                         icon: 'el-icon-lx-cascades',
-                        index: '5',
+                        index: '6',
                         title: '用户管理',
                         subs:[
                             {
@@ -112,6 +134,7 @@
                             }
                         ]
                     },
+                    
                     // {
                     //     icon: 'el-icon-lx-copy',
                     //     index: 'tabs',
