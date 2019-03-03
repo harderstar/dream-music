@@ -1,6 +1,6 @@
 spring:
   datasource:
-    #   数据源基本配置
+    url: jdbc:mysql://localhost:3306/dream-music-db
     username: root
     password: myroot
     driver-class-name: com.mysql.jdbc.Driver
