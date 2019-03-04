@@ -5,11 +5,21 @@ public class ProgrameTreeEnt {
     private String id;
     private String value;
     private String parentId;
+    private Integer isParent;
 
-    public ProgrameTreeEnt(String id, String value, String parentId) {
+    public ProgrameTreeEnt(Integer isParent,String id, String value, String parentId) {
         this.id = id;
         this.value = value;
         this.parentId = parentId;
+        this.isParent = isParent;
+    }
+
+    public Integer getIsParent() {
+        return isParent;
+    }
+
+    public void setIsParent(Integer isParent) {
+        this.isParent = isParent;
     }
 
     public ProgrameTreeEnt() {

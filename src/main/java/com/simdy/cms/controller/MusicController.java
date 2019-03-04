@@ -28,8 +28,6 @@ public class MusicController {
     @Autowired
     private LabelService labelService;
 
-
-
     @GetMapping("labels/{currePage}")
     public List<LabelListEnt>  queryLabels(@PathVariable("currePage") Integer currenPage){
         return labelService.queryLabels(currenPage,10);
@@ -50,9 +48,14 @@ public class MusicController {
             return ResponseMessage.ERROR_MESSAGE;
     }
 
-    @GetMapping("singer/{id}")
+    @GetMapping("singer/get/{id}")
     public SingerEnt querySinger(@PathVariable("id") Integer id){
-        return singerService.querySingerById(id);
+        if(id == 0)
+            return null;
+        else{
+            return singerService.querySingerById(id);
+        }
+
     }
 
     @GetMapping("singers/{currenPage}")
