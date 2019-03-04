@@ -11,18 +11,18 @@ import java.util.List;
 
 public interface LabelMapper {
 
-    @Select("")
+    @Select("select id,name,is_cash as isCash,is_tip as isTip,cash_num as cashNum from label limit #{currPage},#{pageSize}")
     public List<LabelListEnt> queryLabels(Integer currPage,Integer pageSize);
 
-    @Select("")
+    @Select("select id,name,is_cash as isCash,is_tip as isTip,cash_num as cashNum from label where id =#{id}")
     public LabelAddEnt queryLabelById(Integer id);
 
-    @Insert("")
+    @Insert("insert into label (name,is_cash,is_tip,cash_num) value(#{name},#{isCash},#{isTip},#{cashNum})")
     public Integer insertLabel(LabelAddEnt labelAddEnt);
 
-    @Update("")
+    @Update("update label set name=#{name},is_cash=#{isCash},is_tip=#{isTip},cash_num=#{cashNum} where id =#{id}")
     public Integer updateLabel(LabelAddEnt labelAddEnt);
 
-    @Delete("")
+    @Delete("delete from label where id=#{id}")
     public Integer deleteLabelById(Integer id);
 }

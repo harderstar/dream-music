@@ -11,19 +11,19 @@ import java.util.List;
 
 public interface ProgrameMapper {
 
-    @Select("")
-    public List<ProgrameListEnt> queryLabels(Integer currPage, Integer pageSize);
+    @Select("select * from programe limit #{currPage},#{pageSize}")
+    public List<ProgrameListEnt> queryProgrames(Integer currPage, Integer pageSize);
 
-    @Select("")
-    public ProgrameListEnt queryLabelById();
+    @Select("select programe.id as id,programe.name as name,model_location as modelLocation,order,is_show as isShow,parent_id as parentId,model,count,type,station.name from programe join station on station_id=station.id")
+    public ProgrameListEnt queryProgrameById();
 
-    @Insert("")
-    public Integer insertLabel(LabelAddEnt labelAddEnt);
+    @Insert("insert into programe (name,model_location,order,is_show,parent_id,model,count,type,station_id) value")
+    public Integer insertPrograme(ProgrameListEnt programeListEnt);
 
-    @Update("")
-    public Integer updateLabel(LabelAddEnt labelAddEnt);
+    @Update("update programe set  where id=#{id}")
+    public Integer updatePrograme(ProgrameListEnt programeListEnt);
 
-    @Delete("")
-    public Integer deleteLabelById(Integer id);
+    @Delete("delete from programe where id=#{id}")
+    public Integer deleteProgrameById(Integer id);
 
 }
