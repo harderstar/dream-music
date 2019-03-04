@@ -2,6 +2,7 @@ package com.simdy.cms.mapper;
 
 import com.simdy.cms.entity.base.LabelAddEnt;
 import com.simdy.cms.entity.base.ProgrameListEnt;
+import com.simdy.cms.entity.base.ProgrameTreeEnt;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
@@ -12,18 +13,18 @@ import java.util.List;
 public interface ProgrameMapper {
 
     @Select("")
-    public List<ProgrameListEnt> queryLabels(Integer currPage, Integer pageSize);
+    public List<ProgrameTreeEnt> queryProgrames();
 
     @Select("")
-    public ProgrameListEnt queryLabelById();
+    public List<ProgrameListEnt> queryLabelByParentId(Integer parentId);
 
     @Insert("")
-    public Integer insertLabel(LabelAddEnt labelAddEnt);
+    public Integer insertPrograme(ProgrameListEnt programeListEnt);
 
     @Update("")
-    public Integer updateLabel(LabelAddEnt labelAddEnt);
+    public Integer updatePrograme(ProgrameListEnt programeListEnt);
 
     @Delete("")
-    public Integer deleteLabelById(Integer id);
+    public Integer deleteProgrameById(Integer id);
 
 }
