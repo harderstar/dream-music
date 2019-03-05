@@ -18,7 +18,7 @@ public class CommentController {
 
     @GetMapping("getTree")
     public TreeEnt<ProgrameTreeEnt> getTree(){
-        List<ProgrameTreeEnt> programes = programeMapper.queryProgrames();
+        List<ProgrameTreeEnt> programes = programeMapper.quertTrees();
 
         TreeTraverse<ProgrameTreeEnt> treeEntTreeTraverse = new TreeTraverse<>();
 
