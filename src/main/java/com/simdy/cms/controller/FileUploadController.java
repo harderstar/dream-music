@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 
-@RestController("user/")
+@RestController()
 public class FileUploadController {
 
     @PostMapping("upload")

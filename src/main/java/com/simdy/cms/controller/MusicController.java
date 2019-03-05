@@ -33,6 +33,14 @@ public class MusicController {
         return labelService.queryLabels(currenPage,10);
     }
 
+    @GetMapping("label/{id}")
+    public LabelAddEnt queryLabel(@PathVariable("id") Integer id){
+        if(id == 0)
+            return null;
+        else
+            return labelService.queryLabelById(id);
+    }
+
     @PostMapping("label/update")
     public String updateLabel(@RequestParam("labelAddEnt")LabelAddEnt labelAddEnt){
         if(labelService.updatLabel(labelAddEnt))
@@ -81,6 +89,15 @@ public class MusicController {
     @GetMapping("musics/{currePage}")
     public List<MusicListEnt> queryMusics(@PathVariable("currePage") Integer currenPage){
         return musicService.queryMusics(currenPage,10);
+    }
+
+    @GetMapping("music/get/{id}")
+    public MusicAddEnt getMusic(@PathVariable("id") Integer id){
+        if(id == 0)
+            return null;
+        else {
+            return musicService.queryMusicById(id);
+        }
     }
 
     @PostMapping("music/update")
