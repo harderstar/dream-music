@@ -1,69 +1,77 @@
 <template>
-    <div class="table">
-        <div class="crumbs">
-            <el-breadcrumb separator="/">
-                <el-breadcrumb-item><i class="el-icon-lx-cascades"></i> 基础表格</el-breadcrumb-item>
-            </el-breadcrumb>
-        </div>
-        <div class="container"> 
-            <div class="handle-box">
-                <el-button type="primary" icon="delete" class="handle-del mr10" @click="delAll">批量删除</el-button>
-                <el-select v-model="select_cate" placeholder="筛选省份" class="handle-select mr10">
-                    <el-option key="1" label="广东省" value="广东省"></el-option>
-                    <el-option key="2" label="湖南省" value="湖南省"></el-option>
-                </el-select>
-                <el-input v-model="select_word" placeholder="筛选关键词" class="handle-input mr10"></el-input>
-                <el-button type="primary" icon="search" @click="search">搜索</el-button>
+    <div style="display:flex">
+        <el-tree style="width:250px" :data="treeData" :props="defaultProps"  @node-click="handleNodeClick"></el-tree>
+        <div class="table">
+            
+            <div class="container">
+                <div class="handle-box">
+                    <el-button type="primary" icon="add" class="handle-del mr10"  @click="handleAdd()" >栏目添加</el-button>
+
+                </div>
+                <el-table :data="tableData" border class="table" ref="multipleTable" @selection-change="handleSelectionChange">
+                    <el-table-column type="selection" width="55" align="center"></el-table-column>
+                    <el-table-column prop="id" label="ID" sortable width="150">
+                    </el-table-column>
+                    <el-table-column prop="value" label="栏目名称" width="120">
+                    </el-table-column>
+                    <el-table-column prop="modelLocation" label="栏目路径" :formatter="formatter">
+                    </el-table-column>
+                    <el-table-column prop="type" label="类型" :formatter="formatter">
+                    </el-table-column>
+                    <el-table-column prop="isShow" label="显示" :formatter="formatter">
+                    </el-table-column>
+
+                    <el-table-column label="操作" width="180" align="center">
+                        <template slot-scope="scope">
+                            <el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                            <el-button type="text" icon="el-icon-delete" class="red" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
+                <div class="pagination">
+                    <el-pagination background @current-change="handleCurrentChange" layout="prev, pager, next" :total="1000">
+                    </el-pagination>
+                </div>
             </div>
-            <el-table :data="data" border class="table" ref="multipleTable" @selection-change="handleSelectionChange">
-                <el-table-column type="selection" width="55" align="center"></el-table-column>
-                <el-table-column prop="date" label="日期" sortable width="150">
-                </el-table-column>
-                <el-table-column prop="name" label="姓名" width="120">
-                </el-table-column>
-                <el-table-column prop="address" label="地址" :formatter="formatter">
-                </el-table-column>
-                <el-table-column label="操作" width="180" align="center">
-                    <template slot-scope="scope">
-                        <el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-                        <el-button type="text" icon="el-icon-delete" class="red" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-                    </template>
-                </el-table-column>
-            </el-table>
-            <div class="pagination">
-                <el-pagination background @current-change="handleCurrentChange" layout="prev, pager, next" :total="1000">
-                </el-pagination>
-            </div>
+
+            <!-- 编辑弹出框 -->
+            <el-dialog title="编辑" :visible.sync="editVisible" width="40%">
+                <el-form ref="form" :model="form" label-width="100px">
+                    <el-form-item label="上级栏目">
+                        <el-input v-model="form.parentId" :disabled="true"></el-input>
+                    </el-form-item>
+                    <el-form-item label="栏目名称">
+                        <el-input v-model="form.value"></el-input>
+                    </el-form-item>
+                    <el-form-item label="栏目地址">
+                        <el-input v-model="form.modelLocation"></el-input>
+                    </el-form-item>
+                    <el-form-item label="是否展示">
+                        <el-input v-model="form.isShow"></el-input>
+                    </el-form-item>
+                    <el-form-item label="每页记录数">
+                        <el-input v-model="form.count"></el-input>
+                    </el-form-item>
+                     <el-form-item label="站点">
+                        <el-input v-model="form.stationId"></el-input>
+                    </el-form-item>
+                    
+                </el-form>
+                <span slot="footer" class="dialog-footer">
+                    <el-button @click="editVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="saveEdit">确 定</el-button>
+                </span>
+            </el-dialog>
+
+            <!-- 删除提示框 -->
+            <el-dialog title="提示" :visible.sync="delVisible" width="300px" center>
+                <div class="del-dialog-cnt">删除不可恢复，是否确定删除？</div>
+                <span slot="footer" class="dialog-footer">
+                    <el-button @click="delVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="deleteRow">确 定</el-button>
+                </span>
+            </el-dialog>
         </div>
-
-        <!-- 编辑弹出框 -->
-        <el-dialog title="编辑" :visible.sync="editVisible" width="30%">
-            <el-form ref="form" :model="form" label-width="50px">
-                <el-form-item label="日期">
-                    <el-date-picker type="date" placeholder="选择日期" v-model="form.date" value-format="yyyy-MM-dd" style="width: 100%;"></el-date-picker>
-                </el-form-item>
-                <el-form-item label="姓名">
-                    <el-input v-model="form.name"></el-input>
-                </el-form-item>
-                <el-form-item label="地址">
-                    <el-input v-model="form.address"></el-input>
-                </el-form-item>
-
-            </el-form>
-            <span slot="footer" class="dialog-footer">
-                <el-button @click="editVisible = false">取 消</el-button>
-                <el-button type="primary" @click="saveEdit">确 定</el-button>
-            </span>
-        </el-dialog>
-
-        <!-- 删除提示框 -->
-        <el-dialog title="提示" :visible.sync="delVisible" width="300px" center>
-            <div class="del-dialog-cnt">删除不可恢复，是否确定删除？</div>
-            <span slot="footer" class="dialog-footer">
-                <el-button @click="delVisible = false">取 消</el-button>
-                <el-button type="primary" @click="deleteRow">确 定</el-button>
-            </span>
-        </el-dialog>
     </div>
 </template>
 
@@ -82,38 +90,33 @@
                 is_search: false,
                 editVisible: false,
                 delVisible: false,
+                parentId: '',
                 form: {
-                    name: '',
-                    date: '',
-                    address: ''
+                    id:'',
+                    value:'',
+                    modelLocation: '',
+                    order:'',
+                    isShow: '',
+                    parentId: '',
+                    model:'',
+                    count:'',
+                    type:'',
+                    stationId:'',
+                    isParent:''
                 },
-                idx: -1
+                idx: -1,
+                treeData: [],
+                defaultProps: {
+                children: 'children',
+                label: 'value'
+                }
             }
         },
         created() {
             this.getData();
-        },
-        computed: {
-            data() {
-                return this.tableData.filter((d) => {
-                    let is_del = false;
-                    for (let i = 0; i < this.del_list.length; i++) {
-                        if (d.name === this.del_list[i].name) {
-                            is_del = true;
-                            break;
-                        }
-                    }
-                    if (!is_del) {
-                        if (d.address.indexOf(this.select_cate) > -1 &&
-                            (d.name.indexOf(this.select_word) > -1 ||
-                                d.address.indexOf(this.select_word) > -1)
-                        ) {
-                            return d;
-                        }
-                    }
-                })
-            }
-        },
+            this.parentId = 0;
+         },
+     
         methods: {
             // 分页导航
             handleCurrentChange(val) {
@@ -126,17 +129,44 @@
                 if (process.env.NODE_ENV === 'development') {
                     this.url = '/ms/table/list';
                 };
-                this.$axios.post(this.url, {
-                    page: this.cur_page
+                this.$axios.get('http://localhost:8081/getPros',{
+                      params:{
+                            id:0
+                        }
                 }).then((res) => {
-                    this.tableData = res.data.list;
+                    console.log(res.data)
+                    this.tableData = res.data;
+                });
+                this.$axios.get('http://localhost:8081/getTree').then((res)=>{
+
+                    this.treeData = res.data
                 })
+
             },
             search() {
                 this.is_search = true;
             },
             formatter(row, column) {
                 return row.address;
+            },
+             handleNodeClick(data) {
+                 this.parentId = data.id;
+                this.$axios.get('http://localhost:8081/getPros',{
+                        params:{
+                            id:data.id
+                        }
+                    }).then((res) => {
+                    console.log(res.data)
+                    this.tableData = res.data;
+                    this.parentId = data.id;
+                });
+                
+            },
+            handleAdd(){
+                this.form = {
+                    parentId: this.parentId,
+                }
+                this.editVisible = true;
             },
             filterTag(value, row) {
                 return row.tag === value;
@@ -145,15 +175,24 @@
                 this.idx = index;
                 const item = this.tableData[index];
                 this.form = {
-                    name: item.name,
-                    date: item.date,
-                    address: item.address
+                    id:item.id,
+                    value: item.value,
+                    modelLocation: item.modelLocation,
+                    order: item.order,
+                    isShow: item.isShow,
+                    parentId: item.parentId,
+                    model: item.model,
+                    stationId: item.stationId,
+                    count: item.count,
+                    type: item.type,
+                    isParent: item.isParent,
                 }
                 this.editVisible = true;
             },
             handleDelete(index, row) {
                 this.idx = index;
                 this.delVisible = true;
+                
             },
             delAll() {
                 const length = this.multipleSelection.length;
@@ -170,16 +209,22 @@
             },
             // 保存编辑
             saveEdit() {
-                this.$set(this.tableData, this.idx, this.form);
+                
+                this.$axios.post('http://localhost:8081/updatePro',
+                       JSON.stringify(this.form),{headers: {'Content-Type': 'application/json'}}).then((res) => {
+                    console.log(res.data)
+                    this.tableData = res.data;
+                });
                 this.editVisible = false;
-                this.$message.success(`修改第 ${this.idx+1} 行成功`);
+              
             },
             // 确定删除
             deleteRow(){
                 this.tableData.splice(this.idx, 1);
                 this.$message.success('删除成功');
                 this.delVisible = false;
-            }
+            },
+            
         }
     }
 

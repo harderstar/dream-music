@@ -13,10 +13,10 @@ public class UserViewEnt {
     private String wechat;
     private String safeQuestion;
     private String safeAnswer;
-    private Integer power;
+    private Integer vip;
     private Date lastLoginTime;
 
-    public UserViewEnt(Integer id, String name, String password, String sex, Date birthdate, String sign, String phoneNum, String wechat, String safeQuestion, String safeAnswer, Integer power, Date lastLoginTime) {
+    public UserViewEnt(Integer id, String name, String password, String sex, Date birthdate, String sign, String phoneNum, String wechat, String safeQuestion, String safeAnswer, Integer vip, Date lastLoginTime) {
         this.id = id;
         this.name = name;
         this.password = password;
@@ -27,7 +27,7 @@ public class UserViewEnt {
         this.wechat = wechat;
         this.safeQuestion = safeQuestion;
         this.safeAnswer = safeAnswer;
-        this.power = power;
+        this.vip = vip;
         this.lastLoginTime = lastLoginTime;
     }
 
@@ -111,12 +111,20 @@ public class UserViewEnt {
         this.safeAnswer = safeAnswer;
     }
 
-    public Integer getPower() {
-        return power;
+    public Integer getVip() {
+        return vip;
     }
 
-    public void setPower(Integer power) {
-        this.power = power;
+    public void setVip(Integer vip) {
+        this.vip = vip;
+    }
+
+    public Date getLastLoginTime() {
+        return lastLoginTime;
+    }
+
+    public void setLastLoginTime(Date lastLoginTime) {
+        this.lastLoginTime = lastLoginTime;
     }
 
     public Date getLast_login_time() {

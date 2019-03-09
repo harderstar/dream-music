@@ -2,48 +2,57 @@ package com.simdy.cms.entity.base;
 
 public class ProgrameListEnt {
 
-    private String id;
-    private String name;
+    private Integer id;
+    private String value;
     private String modelLocation;
     private Integer order;
     private Integer isShow;
-    private String parentId;
+    private Integer parentId;
     private String model;
     private Integer count;
     private Integer type;
-    private String station;
+    private Integer stationId;
+    private Integer isParent;
 
-    public ProgrameListEnt() {
+    @Override
+    public String toString() {
+        return "ProgrameListEnt{" +
+                "id=" + id +
+                ", value='" + value + '\'' +
+                ", modelLocation='" + modelLocation + '\'' +
+                ", order=" + order +
+                ", isShow=" + isShow +
+                ", parentId=" + parentId +
+                ", model='" + model + '\'' +
+                ", count=" + count +
+                ", type=" + type +
+                ", stationId=" + stationId +
+                ", isParent=" + isParent +
+                '}';
     }
 
-
-    public ProgrameListEnt(String station,String id, String name, String modelLocation, Integer order, Integer isShow, String parentId, String model, Integer count, Integer type) {
-        this.id = id;
-        this.name = name;
-        this.modelLocation = modelLocation;
-        this.order = order;
-        this.isShow = isShow;
-        this.parentId = parentId;
-        this.model = model;
-        this.count = count;
-        this.type = type;
-        this.station = station;
+    public Integer getIsParent() {
+        return isParent;
     }
 
-    public String getId() {
+    public void setIsParent(Integer isParent) {
+        this.isParent = isParent;
+    }
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getValue() {
+        return value;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setValue(String value) {
+        this.value = value;
     }
 
     public String getModelLocation() {
@@ -62,12 +71,19 @@ public class ProgrameListEnt {
         this.order = order;
     }
 
+    public Integer getIsShow() {
+        return isShow;
+    }
 
-    public String getParentId() {
+    public void setIsShow(Integer isShow) {
+        this.isShow = isShow;
+    }
+
+    public Integer getParentId() {
         return parentId;
     }
 
-    public void setParentId(String parentId) {
+    public void setParentId(Integer parentId) {
         this.parentId = parentId;
     }
 
@@ -93,5 +109,13 @@ public class ProgrameListEnt {
 
     public void setType(Integer type) {
         this.type = type;
+    }
+
+    public Integer getStationId() {
+        return stationId;
+    }
+
+    public void setStationId(Integer stationId) {
+        this.stationId = stationId;
     }
 }

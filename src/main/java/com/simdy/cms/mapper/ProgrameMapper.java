@@ -16,17 +16,24 @@ public interface ProgrameMapper {
     @Select("select * from programe limit #{currPage},#{pageSize}")
     public List<ProgrameListEnt> queryProgrames(Integer currPage, Integer pageSize);
 
-    @Select("select * from programe")
+    @Select("select id,value,is_parent,parent_id from programe")
     public List<ProgrameTreeEnt> quertTrees();
 
-    @Select("select programe.id as id,programe.name as name,model_location as modelLocation,order,is_show as isShow,parent_id as parentId,model,count,type,station.name from programe join station on station_id=station.id")
-    public ProgrameListEnt queryProgrameById();
+    @Select("select * from programe where parent_id = #{parentId}")
+    public List<ProgrameListEnt> queryProgramesByParentId(Integer parentId);
 
-    @Insert("insert into programe (name,model_location,order,is_show,parent_id,model,count,type,station_id) value")
+
+    @Select("select  * from programe where id = #{id}")
+    public ProgrameListEnt queryProgrameById(Integer id);
+
+    @Insert("insert into programe (`value`,`model_location`,`order`,`is_show`,`parent_id`,`model`,`count`,`type`,`station_id`) values(#{value},#{modelLocation},#{order},#{isShow},#{parentId},#{model},#{count},#{type},#{stationId})")
     public Integer insertPrograme(ProgrameListEnt programeListEnt);
 
-    @Update("update programe set  where id=#{id}")
+    @Update("update programe set `value`=#{value},`model_location`=#{modelLocation}, `order` = #{order},`is_show`=#{isShow},`parent_id`=#{parentId},`model`=#{model},count=#{count},`type`=#{type},`station_id`=#{stationId},`is_parent`=#{isParent} where `id`=#{id}")
     public Integer updatePrograme(ProgrameListEnt programeListEnt);
+
+    @Update("update programe set `is_parent` = 1 where `id` = #{id}")
+    public Integer updateProgramePid(Integer id);
 
     @Delete("delete from programe where id=#{id}")
     public Integer deleteProgrameById(Integer id);

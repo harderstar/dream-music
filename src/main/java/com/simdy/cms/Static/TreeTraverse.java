@@ -10,11 +10,11 @@ import java.util.Set;
 
 public class TreeTraverse<T extends TreeTypeEnt> {
 
-    public TreeEnt<T> getTreeEnts(List<T> ts){
+    public List<TreeEnt<T>> getTreeEnts(List<T> ts){
 
         Set<Integer> parents = new HashSet<>();
         List<TreeEnt<T>> parentsL = new ArrayList<>();
-        TreeEnt<T> result = null;
+        List<TreeEnt<T>> result = new ArrayList<>();
         parents.add(0);
 
         while (ts.size() != 0){
@@ -27,7 +27,7 @@ public class TreeTraverse<T extends TreeTypeEnt> {
                     TreeEnt<T> treeEnt = new TreeEnt<>();
                     treeEnt.setValue(t.getValue());
                     treeEnt.setId(t.getId());
-                    if(t.getParentId() == 0) result = treeEnt;
+                    if(t.getParentId() == 0) result.add(treeEnt);
                     if(t.getIsParent() == 1){
                         treeEnt.setChildren(new ArrayList<>());
                     }
@@ -41,9 +41,7 @@ public class TreeTraverse<T extends TreeTypeEnt> {
                     parents.add(t.getId());
                     break;
                 }
-
             }
-
         }
         return result;
     }

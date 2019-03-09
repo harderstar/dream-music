@@ -29,6 +29,21 @@ public class CommentListEnt {
         this.programe = programe;
     }
 
+    @Override
+    public String toString() {
+        return "CommentListEnt{" +
+                "id=" + id +
+                ", type='" + type + '\'' +
+                ", stickLevel=" + stickLevel +
+                ", issuer='" + issuer + '\'' +
+                ", title='" + title + '\'' +
+                ", clickNum=" + clickNum +
+                ", commit=" + commit +
+                ", uptime=" + uptime +
+                ", programe='" + programe + '\'' +
+                '}';
+    }
+
     public String getPrograme() {
         return programe;
     }

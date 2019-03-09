@@ -34,11 +34,7 @@ export default new Router({
                     component: resolve => require(['../components/page/preview/previewTable.vue'], resolve),
                     meta: { title: '预览列表' }
                 },
-                {
-                    path: '/columnTable',
-                    component: resolve => require(['../components/page/column/columnTable.vue'], resolve),
-                    meta: { title: '栏目列表' }
-                },
+                
                  
                 {
                     path: '/musicTable',

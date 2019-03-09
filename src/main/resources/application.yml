@@ -22,9 +22,8 @@ spring:
     maxPoolPreparedStatementPerConnectionSize: 20
     useGlobalDataSourceStat: true
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
-#    schema:
-#      - classpath:sql/department.sql
-#      - classpath:sql/employee.sql
+#   schema:
+#     - classpath:sql/department.sql
+#     - classpath:sql/employee.sql
 server:
   port: 8081
-debug: true
