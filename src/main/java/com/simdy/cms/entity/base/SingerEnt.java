@@ -22,6 +22,17 @@ public class SingerEnt {
     public SingerEnt() {
     }
 
+    @Override
+    public String toString() {
+        return "SingerEnt{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", birthday=" + birthday +
+                ", introduction='" + introduction + '\'' +
+                ", hotLevel=" + hotLevel +
+                '}';
+    }
+
     public Integer getId() {
         return id;
     }

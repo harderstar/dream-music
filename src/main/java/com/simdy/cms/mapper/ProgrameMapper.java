@@ -3,18 +3,15 @@ package com.simdy.cms.mapper;
 import com.simdy.cms.entity.base.LabelAddEnt;
 import com.simdy.cms.entity.base.ProgrameListEnt;
 import com.simdy.cms.entity.base.ProgrameTreeEnt;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 public interface ProgrameMapper {
 
-    @Select("select * from programe limit #{currPage},#{pageSize}")
-    public List<ProgrameListEnt> queryProgrames(Integer currPage, Integer pageSize);
+    @Select("select * from programe")
+    public List<ProgrameListEnt> queryProgrames();
 
     @Select("select id,value,is_parent,parent_id from programe")
     public List<ProgrameTreeEnt> quertTrees();

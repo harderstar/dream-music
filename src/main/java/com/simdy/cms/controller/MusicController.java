@@ -13,10 +13,12 @@ import com.sun.org.apache.bcel.internal.generic.LMUL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.util.List;
 import java.util.Map;
 
 @RestController()
+@RequestMapping("manager")
 public class MusicController {
 
     @Autowired
@@ -86,9 +88,12 @@ public class MusicController {
             return ResponseMessage.ERROR_MESSAGE;
     }
 
-    @GetMapping("musics/{currePage}")
-    public List<MusicListEnt> queryMusics(@PathVariable("currePage") Integer currenPage){
-        return musicService.queryMusics(currenPage,10);
+    @GetMapping("musics")
+    public List<MusicListEnt> queryMusics(@PathParam("currePage") Integer currenPage
+            ,@PathParam("pageSize") Integer pageSize){
+        List<MusicListEnt> listEnts = musicService.queryMusics(currenPage, pageSize);
+        System.out.println(listEnts);
+        return listEnts;
     }
 
     @GetMapping("music/get/{id}")

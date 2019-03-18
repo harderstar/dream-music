@@ -2,15 +2,18 @@ package com.simdy.cms.mapper;
 
 import com.simdy.cms.entity.base.UserListEnt;
 import com.simdy.cms.entity.base.UserViewEnt;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
 public interface UserMapper {
-    @Select("select * from user limit #{currPage},#{pageSize}")
-    public List<UserListEnt> queryUsers(Integer currPage, Integer pageSize);
+
+    @Results({
+        @Result(property = "vip" ,column = "vip",javaType = com.simdy.cms.entity.KeyValueEnt.class
+                ,one = @One(select = "com.simdy.cms.mapper.VipMapper.queryVipKVById"))
+    })
+    @Select("SELECT *  FROM USER")
+    public List<UserListEnt> queryUsers();
 
     @Select("select id,name,password,sex,birthdate,sign,phonenumber as phoneNum,wechat,safe_question as safeQuestion,safe_answer as safeAnswer,power,last_login_time as lastLoginTime from user where id =#{id}")
     public UserViewEnt queryUserById(Integer id);

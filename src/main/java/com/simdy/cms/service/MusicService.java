@@ -1,5 +1,6 @@
 package com.simdy.cms.service;
 
+import com.github.pagehelper.PageHelper;
 import com.simdy.cms.entity.base.MusicAddEnt;
 import com.simdy.cms.entity.base.MusicListEnt;
 import com.simdy.cms.mapper.MusicMapper;
@@ -17,7 +18,8 @@ public class MusicService {
     private MusicMapper musicMapper;
 
     public List<MusicListEnt> queryMusics(Integer currPage,Integer pageSize){
-        return musicMapper.queryMusics(currPage,pageSize);
+        PageHelper.startPage(currPage,pageSize);
+        return musicMapper.queryMusics();
     }
 
     public MusicAddEnt queryMusicById(Integer id){

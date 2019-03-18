@@ -1,5 +1,6 @@
 package com.simdy.cms.service;
 
+import com.github.pagehelper.PageHelper;
 import com.simdy.cms.entity.Music;
 import com.simdy.cms.entity.base.MusicAddEnt;
 import com.simdy.cms.entity.base.MusicListEnt;
@@ -26,8 +27,8 @@ public class SingerService {
 
 
     public List<SingerEnt> querySingers(Integer currPage,Integer pagesize){
-        System.out.println(currPage + " " +pagesize);
-        return singerMapper.querySingers(currPage,pagesize);
+        PageHelper.startPage(currPage,pagesize);
+        return singerMapper.querySingers();
 
     }
 
@@ -62,7 +63,7 @@ public class SingerService {
     }
 
     public List<MusicListEnt> queryMusicsBySinger(SingerEnt singer){
-        return musicMapper.queryMusicBySingerId(singer.getId());
+        return musicMapper.queryMusicsBySingerId(singer.getId());
     }
 
 }

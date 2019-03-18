@@ -1,13 +1,15 @@
 package com.simdy.cms.entity.base;
 
 import java.util.Date;
+import java.util.List;
 
 public class MusicAddEnt {
 
     private Integer id;
     private String name;
-    private String singer;
+    private List<SingerEnt> singers;
     private String album;
+    private List<LabelListEnt> labels;
     private String auditionUrl;
     private String lyric;
     private String image;
@@ -23,11 +25,12 @@ public class MusicAddEnt {
     public MusicAddEnt() {
     }
 
-    public MusicAddEnt(Integer id, String name, String singer, String album, String auditionUrl, String lyric, String image, Integer popularity, Double size, Integer like, Integer download, String danceTemplate, Date uptime, Integer commit, Integer recommend) {
+    public MusicAddEnt(Integer id, String name, List<SingerEnt> singers, String album, List<LabelListEnt> labels, String auditionUrl, String lyric, String image, Integer popularity, Double size, Integer like, Integer download, String danceTemplate, Date uptime, Integer commit, Integer recommend) {
         this.id = id;
         this.name = name;
-        this.singer = singer;
+        this.singers = singers;
         this.album = album;
+        this.labels = labels;
         this.auditionUrl = auditionUrl;
         this.lyric = lyric;
         this.image = image;
@@ -39,6 +42,14 @@ public class MusicAddEnt {
         this.uptime = uptime;
         this.commit = commit;
         this.recommend = recommend;
+    }
+
+    public List<LabelListEnt> getLabels() {
+        return labels;
+    }
+
+    public void setLabels(List<LabelListEnt> labels) {
+        this.labels = labels;
     }
 
     public Integer getId() {
@@ -57,12 +68,12 @@ public class MusicAddEnt {
         this.name = name;
     }
 
-    public String getSinger() {
-        return singer;
+    public List<SingerEnt> getSingers() {
+        return singers;
     }
 
-    public void setSinger(String singer) {
-        this.singer = singer;
+    public void setSingers(List<SingerEnt> singers) {
+        this.singers = singers;
     }
 
     public String getAlbum() {

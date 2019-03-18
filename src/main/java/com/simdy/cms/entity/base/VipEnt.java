@@ -12,6 +12,18 @@ public class VipEnt {
     public VipEnt() {
     }
 
+    @Override
+    public String toString() {
+        return "VipEnt{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", isBase=" + isBase +
+                ", downloadSize=" + downloadSize +
+                ", fee=" + fee +
+                ", isComtent=" + isComtent +
+                '}';
+    }
+
     public VipEnt(Integer id, String name, Integer isBase, Integer downloadSize, Integer fee, Integer isComtent) {
         this.id = id;
         this.name = name;

@@ -1,5 +1,6 @@
 package com.simdy.cms.service;
 
+import com.github.pagehelper.PageHelper;
 import com.simdy.cms.entity.base.CommentAddEnt;
 import com.simdy.cms.entity.base.CommentListEnt;
 import com.simdy.cms.mapper.CommentMapper;
@@ -14,7 +15,8 @@ public class CommentService {
     @Autowired
     CommentMapper commentMapper;
 
-    public List<CommentListEnt> getCommentsByProId(Integer proId){
+    public List<CommentListEnt> getCommentsByProId(Integer proId,Integer curPage,Integer pageSize){
+        PageHelper.startPage(curPage,pageSize);
         return commentMapper.queryCommentsByProID(proId);
     }
 

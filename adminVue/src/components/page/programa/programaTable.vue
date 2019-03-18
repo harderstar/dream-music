@@ -1,6 +1,12 @@
 <template>
     <div style="display:flex">
-        <el-tree style="width:250px" :data="treeData" :props="defaultProps"  @node-click="handleNodeClick"></el-tree>
+        <el-tree 
+            style="width:250px"
+            :data="treeData" 
+            :props="defaultProps"
+            default-expand-all
+            @node-click="handleNodeClick">
+        </el-tree>
         <div class="table">
             
             <div class="container">
@@ -77,7 +83,9 @@
 
 <script>
     export default {
+        
         name: 'basetable',
+     
         data() {
             return {
                 url: './vuetable.json',
@@ -129,7 +137,7 @@
                 if (process.env.NODE_ENV === 'development') {
                     this.url = '/ms/table/list';
                 };
-                this.$axios.get('http://localhost:8081/getPros',{
+                this.$axios.get('http://localhost:8081/manager/getPros',{
                       params:{
                             id:0
                         }
@@ -137,7 +145,7 @@
                     console.log(res.data)
                     this.tableData = res.data;
                 });
-                this.$axios.get('http://localhost:8081/getTree').then((res)=>{
+                this.$axios.get('http://localhost:8081/manager/getTree').then((res)=>{
 
                     this.treeData = res.data
                 })
@@ -151,7 +159,7 @@
             },
              handleNodeClick(data) {
                  this.parentId = data.id;
-                this.$axios.get('http://localhost:8081/getPros',{
+                this.$axios.get('http://localhost:8081/manager/getPros',{
                         params:{
                             id:data.id
                         }
@@ -190,9 +198,11 @@
                 this.editVisible = true;
             },
             handleDelete(index, row) {
-                this.idx = index;
-                this.delVisible = true;
+                console.log("==============")
                 
+                this.delVisible = true;
+                const item = this.tableData[index];
+                this.idx = item.id;
             },
             delAll() {
                 const length = this.multipleSelection.length;
@@ -210,7 +220,7 @@
             // 保存编辑
             saveEdit() {
                 
-                this.$axios.post('http://localhost:8081/updatePro',
+                this.$axios.post('http://localhost:8081/manager/updatePro',
                        JSON.stringify(this.form),{headers: {'Content-Type': 'application/json'}}).then((res) => {
                     console.log(res.data)
                     this.tableData = res.data;
@@ -220,6 +230,14 @@
             },
             // 确定删除
             deleteRow(){
+                 this.$axios.get('http://localhost:8081/manager/deletePro',{
+                        params:{
+                            id:this.idx
+                        }
+                    }).then((res) => {
+                    console.log(res.data)
+                    
+                }); 
                 this.tableData.splice(this.idx, 1);
                 this.$message.success('删除成功');
                 this.delVisible = false;

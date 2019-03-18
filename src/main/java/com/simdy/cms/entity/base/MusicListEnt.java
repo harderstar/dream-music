@@ -1,28 +1,38 @@
 package com.simdy.cms.entity.base;
 
 import java.util.Date;
+import java.util.List;
 
 public class MusicListEnt {
 
     private Integer id;
     private String name;
     private Integer popularity;
-    private String singer;
+    private List<SingerEnt> singers;
     private Date uptime;
     private Integer commit;
     private Integer recommend;
 
+
     public MusicListEnt() {
     }
 
-    public MusicListEnt(Integer id, String name, Integer popularity, String singer, Date uptime, Integer commit, Integer recommend) {
+    public MusicListEnt(Integer id, String name, Integer popularity, List<SingerEnt> singers, Date uptime, Integer commit, Integer recommend) {
         this.id = id;
         this.name = name;
         this.popularity = popularity;
-        this.singer = singer;
+        this.singers = singers;
         this.uptime = uptime;
         this.commit = commit;
         this.recommend = recommend;
+    }
+
+    public List<SingerEnt> getSingers() {
+        return singers;
+    }
+
+    public void setSingers(List<SingerEnt> singers) {
+        this.singers = singers;
     }
 
     public Integer getId() {
@@ -49,14 +59,6 @@ public class MusicListEnt {
         this.popularity = popularity;
     }
 
-    public String getSinger() {
-        return singer;
-    }
-
-    public void setSinger(String singer) {
-        this.singer = singer;
-    }
-
     public Date getUptime() {
         return uptime;
     }
@@ -79,5 +81,18 @@ public class MusicListEnt {
 
     public void setRecommend(Integer recommend) {
         this.recommend = recommend;
+    }
+
+    @Override
+    public String toString() {
+        return "MusicListEnt{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", popularity=" + popularity +
+                ", singers=" + singers +
+                ", uptime=" + uptime +
+                ", commit=" + commit +
+                ", recommend=" + recommend +
+                '}';
     }
 }

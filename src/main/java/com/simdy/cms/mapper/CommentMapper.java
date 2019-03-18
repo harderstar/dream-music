@@ -15,7 +15,7 @@ public interface CommentMapper {
     @Select("SELECT comment.id,comment.`type`,`stick_level`,`issuer`,`title`,`click_num`,`commit`,`uptime`,`value` FROM `comment`,`programe` WHERE comment.programeId=programe.id AND programeId = #{proId}")
     public List<CommentListEnt> queryCommentsByProID(Integer proId);
 
-    @Select("")
+    @Select("select * from comment where id = #{id}")
     public CommentAddEnt queryCommentById(Integer id);
 
     @Delete("")
