@@ -33,7 +33,7 @@ public class SingerService {
     }
 
     public Boolean updateSinger(SingerEnt singer){
-        if (singer.getId() != null){
+        if (singer.getId() == null){
             if(singerMapper.insertSinger(singer) == 1)
                 return true;
             else

@@ -1,6 +1,7 @@
 package com.simdy.cms.entity.base;
 
 import java.util.Date;
+import java.util.Map;
 
 public class CommentListEnt {
 
@@ -12,21 +13,15 @@ public class CommentListEnt {
     private Integer clickNum;
     private Integer commit;
     private Date uptime;
-    private String programe;
+    private ProgrameListEnt programe;
+    private String commentImage;
 
-    public CommentListEnt() {
+    public String getCommentImage() {
+        return commentImage;
     }
 
-    public CommentListEnt( String programe,Integer id, String type, Integer stickLevel, String issuer, String title, Integer clickNum, Integer commit, Date uptime) {
-        this.id = id;
-        this.type = type;
-        this.stickLevel = stickLevel;
-        this.issuer = issuer;
-        this.title = title;
-        this.clickNum = clickNum;
-        this.commit = commit;
-        this.uptime = uptime;
-        this.programe = programe;
+    public void setCommentImage(String commentImage) {
+        this.commentImage = commentImage;
     }
 
     @Override
@@ -44,13 +39,14 @@ public class CommentListEnt {
                 '}';
     }
 
-    public String getPrograme() {
+    public ProgrameListEnt getPrograme() {
         return programe;
     }
 
-    public void setPrograme(String programe) {
+    public void setPrograme(ProgrameListEnt programe) {
         this.programe = programe;
     }
+
     public Integer getId() {
         return id;
     }

@@ -44,6 +44,28 @@ public class MusicAddEnt {
         this.recommend = recommend;
     }
 
+    @Override
+    public String toString() {
+        return "MusicAddEnt{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", singers=" + singers +
+                ", album='" + album + '\'' +
+                ", labels=" + labels +
+                ", auditionUrl='" + auditionUrl + '\'' +
+                ", lyric='" + lyric + '\'' +
+                ", image='" + image + '\'' +
+                ", popularity=" + popularity +
+                ", size=" + size +
+                ", like=" + like +
+                ", download=" + download +
+                ", danceTemplate='" + danceTemplate + '\'' +
+                ", uptime=" + uptime +
+                ", commit=" + commit +
+                ", recommend=" + recommend +
+                '}';
+    }
+
     public List<LabelListEnt> getLabels() {
         return labels;
     }

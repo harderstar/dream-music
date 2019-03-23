@@ -12,7 +12,7 @@ public class ManagerService {
     ManageMapper manageMapper;
 
     public ManagerEnt managerLogin(ManagerEnt managerEnt){
-        ManagerEnt ent = manageMapper.quaryManagerByUsername(managerEnt);
+        ManagerEnt ent = manageMapper.quaryManagerByUsername(managerEnt.getUsername());
         if(ent!=null){
             ent.setPassword(null);
         }

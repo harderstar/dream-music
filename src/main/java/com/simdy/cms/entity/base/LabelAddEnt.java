@@ -19,6 +19,17 @@ public class LabelAddEnt {
         this.cashNum = cashNum;
     }
 
+    @Override
+    public String toString() {
+        return "LabelAddEnt{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", isTip=" + isTip +
+                ", isCash=" + isCash +
+                ", cashNum=" + cashNum +
+                '}';
+    }
+
     public Integer getId() {
         return id;
     }

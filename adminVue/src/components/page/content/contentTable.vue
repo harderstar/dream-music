@@ -129,8 +129,12 @@
                 if (process.env.NODE_ENV === 'development') {
                     this.url = '/ms/table/list';
                 };
-                this.$axios.get('http://localhost:8081/manager/getcomments/'+this.parentId,{
-                       
+                this.$axios.get('http://localhost:8081/manager/getcomments',{
+                      params:{
+                        id : this.parentId,
+                        pageSize : 10,
+                        curPage : 1,
+                      },
                 }).then((res) => {
                     console.log(res.data)
                     this.tableData = res.data;
@@ -149,8 +153,12 @@
             },
              handleNodeClick(data) {
                 this.parentId = data.id;
-                this.$axios.get('http://localhost:8081/manager/getcomments/'+this.parentId,{
-                       
+                this.$axios.get('http://localhost:8081/manager/getcomments',{
+                        params:{
+                           id : this.parentId,
+                           pageSize : 10,
+                           curPage : 1,
+                         },
                 }).then((res) => {
                     console.log(res.data)
                     this.tableData = res.data;

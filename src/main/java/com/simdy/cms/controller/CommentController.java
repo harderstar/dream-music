@@ -34,7 +34,6 @@ public class CommentController {
     @GetMapping("getTree")
     public List<TreeEnt<ProgrameTreeEnt>> getTree(HttpServletRequest request, HttpServletResponse response){
 
-
         List<TreeEnt<ProgrameTreeEnt>> list = programeService.getProgrameTree();
         return list;
     }
@@ -73,9 +72,9 @@ public class CommentController {
     }
 
     @GetMapping("getcomments")
-    public List<CommentListEnt> getcommentsByProId(@PathParam("id") Integer id,
-                                                   @PathParam("pageSize") Integer pageSize,
-                                                   @PathParam("curPage") Integer curPage,
+    public List<CommentListEnt> getCommentsByProId(@RequestParam("id") Integer id,
+                                                   @RequestParam("pageSize") Integer pageSize,
+                                                   @RequestParam("curPage") Integer curPage,
                                                    HttpServletRequest request,
                                                    HttpServletResponse response){
         ResponseMessage.DEAL_CROSS_DOMAIN(response,request);
@@ -120,4 +119,7 @@ public class CommentController {
             return ResponseMessage.SUCCESS_MESSAGE;
         return ResponseMessage.ERROR_MESSAGE;
     }
+
+
+
 }

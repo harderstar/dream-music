@@ -53,7 +53,7 @@ public class ProgrameService {
     public boolean deletePro(Integer id){
         List<ProgrameTreeEnt> programes = programeMapper.quertTrees();
         TreeTraverse<ProgrameTreeEnt> treeEntTreeTraverse = new TreeTraverse<>();
-        Set<Integer> treeNodes = treeEntTreeTraverse.queryTreeNode(id, programes);
+        List<Integer> treeNodes = treeEntTreeTraverse.queryTreeNode(id, programes);
         for (Integer nodeId:treeNodes) {
             if(programeMapper.deleteProgrameById(nodeId)==0)
                 return false;

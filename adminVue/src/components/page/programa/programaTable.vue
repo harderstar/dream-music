@@ -4,7 +4,7 @@
             style="width:250px"
             :data="treeData" 
             :props="defaultProps"
-            default-expand-all
+         
             @node-click="handleNodeClick">
         </el-tree>
         <div class="table">
@@ -20,11 +20,11 @@
                     </el-table-column>
                     <el-table-column prop="value" label="栏目名称" width="120">
                     </el-table-column>
-                    <el-table-column prop="modelLocation" label="栏目路径" :formatter="formatter">
+                    <el-table-column prop="modelLocation" label="栏目路径">
                     </el-table-column>
-                    <el-table-column prop="type" label="类型" :formatter="formatter">
+                    <el-table-column prop="type" label="类型" >
                     </el-table-column>
-                    <el-table-column prop="isShow" label="显示" :formatter="formatter">
+                    <el-table-column prop="isShow" label="显示" >
                     </el-table-column>
 
                     <el-table-column label="操作" width="180" align="center">
@@ -158,7 +158,7 @@
                 return row.address;
             },
              handleNodeClick(data) {
-                 this.parentId = data.id;
+                this.parentId = data.id;
                 this.$axios.get('http://localhost:8081/manager/getPros',{
                         params:{
                             id:data.id

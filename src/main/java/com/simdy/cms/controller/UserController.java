@@ -1,9 +1,11 @@
 package com.simdy.cms.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.github.pagehelper.PageInfo;
 import com.simdy.cms.Static.ResponseMessage;
 import com.simdy.cms.entity.Result;
 import com.simdy.cms.entity.base.UserListEnt;
+import com.simdy.cms.entity.base.UserViewEnt;
 import com.simdy.cms.entity.base.VipEnt;
 import com.simdy.cms.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
 import java.util.List;
 
 @RestController()
@@ -76,10 +75,11 @@ public class UserController {
      * @return
      */
     @GetMapping("getUsers/{page}")
-    public List<UserListEnt> getUsers(@PathVariable("page")Integer page, HttpServletRequest request, HttpServletResponse response){
+    @JsonView(UserViewEnt.UserSimpleView.class)
+    public List<UserViewEnt> getUsers(@PathVariable("page")Integer page, HttpServletRequest request, HttpServletResponse response){
         ResponseMessage.DEAL_CROSS_DOMAIN(response,request);
-
-        return userService.getUsers(page,10);
+        List<UserViewEnt> users = userService.getUsers(page, 10);
+        return users;
 
     }
 

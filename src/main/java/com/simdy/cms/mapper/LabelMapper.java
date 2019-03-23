@@ -11,8 +11,8 @@ import java.util.List;
 
 public interface LabelMapper {
 
-    @Select("select id,name,is_cash as isCash,is_tip as isTip,cash_num as cashNum from label limit #{currPage},#{pageSize}")
-    public List<LabelListEnt> queryLabels(Integer currPage,Integer pageSize);
+    @Select("select * from label ")
+    public List<LabelListEnt> queryLabels();
 
     @Select("select id,name,is_cash as isCash,is_tip as isTip,cash_num as cashNum from label where id =#{id}")
     public LabelAddEnt queryLabelById(Integer id);

@@ -48,9 +48,9 @@ public class TreeTraverse<T extends TreeTypeEnt> {
         return result;
     }
 
-    public Set<Integer> queryTreeNode(Integer id, List<T> ts){
+    public List<Integer> queryTreeNode(Integer id, List<T> ts){
 
-        Set<Integer> parents = new HashSet<>();
+        List<Integer> parents = new ArrayList<>();
         parents.add(id);
         boolean isNull = false;
         while (!isNull){
@@ -66,7 +66,7 @@ public class TreeTraverse<T extends TreeTypeEnt> {
             isNull = !isNull;
         }
 
-        System.out.println(parents);
+
         return parents;
     }
 

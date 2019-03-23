@@ -1,27 +1,20 @@
 <template>
     <div class="table">
-        <div class="crumbs">
-            <el-breadcrumb separator="/">
-                <el-breadcrumb-item><i class="el-icon-lx-cascades"></i> 基础表格</el-breadcrumb-item>
-            </el-breadcrumb>
-        </div>
+         
         <div class="container">
             <div class="handle-box">
-                <el-button type="primary" icon="delete" class="handle-del mr10" @click="delAll">批量删除</el-button>
-                <el-select v-model="select_cate" placeholder="筛选省份" class="handle-select mr10">
-                    <el-option key="1" label="广东省" value="广东省"></el-option>
-                    <el-option key="2" label="湖南省" value="湖南省"></el-option>
-                </el-select>
-                <el-input v-model="select_word" placeholder="筛选关键词" class="handle-input mr10"></el-input>
-                <el-button type="primary" icon="search" @click="search">搜索</el-button>
+                <el-button type="primary" icon="add" class="handle-del mr10" @click="handleAdd">添加</el-button>
+                 
             </div>
-            <el-table :data="data" border class="table" ref="multipleTable" @selection-change="handleSelectionChange">
+            <el-table :data="tableData" border class="table" ref="multipleTable" @selection-change="handleSelectionChange">
                 <el-table-column type="selection" width="55" align="center"></el-table-column>
-                <el-table-column prop="date" label="日期" sortable width="150">
+                <el-table-column prop="name" label="标签名">
                 </el-table-column>
-                <el-table-column prop="name" label="姓名" width="120">
+                <el-table-column prop="isTip" label="搜索提示" width="120">
                 </el-table-column>
-                <el-table-column prop="address" label="地址" :formatter="formatter">
+                <el-table-column prop="isCash" label="缓存状态"  width="120">
+                </el-table-column>
+                <el-table-column prop="searchTimes" label="搜索次数"  width="120">
                 </el-table-column>
                 <el-table-column label="操作" width="180" align="center">
                     <template slot-scope="scope">
@@ -39,16 +32,17 @@
         <!-- 编辑弹出框 -->
         <el-dialog title="编辑" :visible.sync="editVisible" width="30%">
             <el-form ref="form" :model="form" label-width="50px">
-                <el-form-item label="日期">
-                    <el-date-picker type="date" placeholder="选择日期" v-model="form.date" value-format="yyyy-MM-dd" style="width: 100%;"></el-date-picker>
-                </el-form-item>
-                <el-form-item label="姓名">
+                
+                <el-form-item label="标签名">
                     <el-input v-model="form.name"></el-input>
                 </el-form-item>
-                <el-form-item label="地址">
-                    <el-input v-model="form.address"></el-input>
+                <el-form-item label="搜索提示">
+                    <el-input v-model="form.isTip"></el-input>
                 </el-form-item>
-
+                <el-form-item label="缓存状态">
+                    <el-input v-model="form.isCash"></el-input>
+                </el-form-item>
+                 
             </el-form>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="editVisible = false">取 消</el-button>
@@ -83,9 +77,10 @@
                 editVisible: false,
                 delVisible: false,
                 form: {
+                    id:'',
                     name: '',
-                    date: '',
-                    address: ''
+                    isTip: '',
+                    isCash: ''
                 },
                 idx: -1
             }
@@ -122,15 +117,12 @@
             },
             // 获取 easy-mock 的模拟数据
             getData() {
-                // 开发环境使用 easy-mock 数据，正式环境使用 json 文件
-                if (process.env.NODE_ENV === 'development') {
-                    this.url = '/ms/table/list';
-                };
-                this.$axios.post(this.url, {
-                    page: this.cur_page
+                this.$axios.get('http://localhost:8081/manager/labels/'+this.cur_page,{
+                      
                 }).then((res) => {
-                    this.tableData = res.data.list;
-                })
+                    console.log(res.data)
+                    this.tableData = res.data;
+                });
             },
             search() {
                 this.is_search = true;
@@ -145,15 +137,17 @@
                 this.idx = index;
                 const item = this.tableData[index];
                 this.form = {
+                    id: item.id,
                     name: item.name,
-                    date: item.date,
-                    address: item.address
+                    isTip: item.isTip,
+                    isCash: item.isCash
                 }
                 this.editVisible = true;
             },
             handleDelete(index, row) {
-                this.idx = index;
                 this.delVisible = true;
+                const item = this.tableData[index];
+                this.idx = item.id;
             },
             delAll() {
                 const length = this.multipleSelection.length;
@@ -172,14 +166,31 @@
             saveEdit() {
                 this.$set(this.tableData, this.idx, this.form);
                 this.editVisible = false;
+                 this.$axios.post('http://localhost:8081/manager/label/update',
+                       JSON.stringify(this.form),{headers: {'Content-Type': 'application/json'}}).then((res) => {
+                    console.log(res.data)
+                    this.tableData = res.data;
+                });
                 this.$message.success(`修改第 ${this.idx+1} 行成功`);
             },
             // 确定删除
             deleteRow(){
+                 this.$axios.post('http://localhost:8081/manager/label/delete/'+this.idx,{
+                         
+                    }).then((res) => {
+                    console.log(res.data)
+                    
+                }); 
                 this.tableData.splice(this.idx, 1);
                 this.$message.success('删除成功');
                 this.delVisible = false;
-            }
+            },
+             handleAdd(){
+                this.form = {
+                    parentId: this.parentId,
+                }
+                this.editVisible = true;
+            },
         }
     }
 

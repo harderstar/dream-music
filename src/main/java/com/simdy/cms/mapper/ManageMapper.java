@@ -8,7 +8,10 @@ import org.apache.ibatis.annotations.Update;
 public interface ManageMapper {
 
     @Select("select * from manager where username = #{username} and password = #{password}")
-    public ManagerEnt quaryManagerByUsername(ManagerEnt managerEnt);
+    public ManagerEnt quaryManager(ManagerEnt managerEnt);
+
+    @Select("select * from manager where username = #{username}")
+    public ManagerEnt quaryManagerByUsername(String username);
 
 
 

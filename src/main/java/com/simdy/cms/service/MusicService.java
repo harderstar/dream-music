@@ -40,10 +40,17 @@ public class MusicService {
         }
     }
 
+
     public Boolean deleteMusicById(Integer id){
-        if(musicMapper.deleteMusicsBySingerId(id) == 1)
-            return true;
-        else
+        if(musicMapper.deleteMusicAndLabelByMusicId(id) == 1){
+            if(musicMapper.deleteMusicAndLabelByMusicId(id) == 1){
+                if(musicMapper.deleteMusic(id) == 1)
+                    return true;
+                else return false;
+            }else
+                return false;
+        }else
             return false;
+
     }
 }

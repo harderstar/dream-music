@@ -13,12 +13,15 @@ import com.sun.org.apache.bcel.internal.generic.LMUL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.websocket.server.PathParam;
 import java.util.List;
 import java.util.Map;
 
 @RestController()
 @RequestMapping("manager")
+@CrossOrigin
 public class MusicController {
 
     @Autowired
@@ -44,14 +47,16 @@ public class MusicController {
     }
 
     @PostMapping("label/update")
-    public String updateLabel(@RequestParam("labelAddEnt")LabelAddEnt labelAddEnt){
+    public String updateLabel(@RequestBody LabelAddEnt labelAddEnt, HttpServletResponse response, HttpServletRequest request){
+        ResponseMessage.DEAL_CROSS_DOMAIN(response,request);
         if(labelService.updatLabel(labelAddEnt))
             return ResponseMessage.SUCCESS_MESSAGE;
         return ResponseMessage.ERROR_MESSAGE;
     }
 
     @PostMapping("label/delete/{id}")
-    public String deleteLabel(@PathVariable("id") Integer id){
+    public String deleteLabel(@PathVariable("id") Integer id,HttpServletResponse response,HttpServletRequest request){
+        ResponseMessage.DEAL_CROSS_DOMAIN(response,request);
         if(labelService.deleteLabelById(id))
             return ResponseMessage.SUCCESS_MESSAGE;
         else
@@ -74,7 +79,7 @@ public class MusicController {
     }
 
     @PostMapping("singer/update")
-    public String updateSingers(@RequestParam("singerEnt") SingerEnt singerEnt){
+    public String updateSingers(@RequestBody SingerEnt singerEnt){
         if(singerService.updateSinger(singerEnt))
             return ResponseMessage.SUCCESS_MESSAGE;
         return ResponseMessage.ERROR_MESSAGE;
@@ -88,15 +93,14 @@ public class MusicController {
             return ResponseMessage.ERROR_MESSAGE;
     }
 
-    @GetMapping("musics")
-    public List<MusicListEnt> queryMusics(@PathParam("currePage") Integer currenPage
-            ,@PathParam("pageSize") Integer pageSize){
-        List<MusicListEnt> listEnts = musicService.queryMusics(currenPage, pageSize);
+    @GetMapping("musics/{currePage}")
+    public List<MusicListEnt> queryMusics(@PathVariable("currePage") Integer currenPage){
+        List<MusicListEnt> listEnts = musicService.queryMusics(currenPage, 10);
         System.out.println(listEnts);
         return listEnts;
     }
 
-    @GetMapping("music/get/{id}")
+    @GetMapping("music/{id}")
     public MusicAddEnt getMusic(@PathVariable("id") Integer id){
         if(id == 0)
             return null;
@@ -106,14 +110,15 @@ public class MusicController {
     }
 
     @PostMapping("music/update")
-    public String updateMusic(@RequestParam("musicAddEnt") MusicAddEnt musicAddEnt){
+    public String updateMusic(@RequestBody MusicAddEnt musicAddEnt){
         if(musicService.updateMusic(musicAddEnt))
             return ResponseMessage.SUCCESS_MESSAGE;
         return ResponseMessage.ERROR_MESSAGE;
     }
 
     @PostMapping("music/delete/{id}")
-    public String deleteMusic(@PathVariable("id") Integer id){
+    public String deleteMusic(@PathVariable("id") Integer id,HttpServletRequest request,HttpServletResponse response){
+        ResponseMessage.DEAL_CROSS_DOMAIN(response,request);
         if(musicService.deleteMusicById(id))
             return ResponseMessage.SUCCESS_MESSAGE;
         else

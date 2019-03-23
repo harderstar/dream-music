@@ -41,8 +41,12 @@ public interface MusicMapper {
 })
     public MusicAddEnt queryMusicAddById(Integer id);
 
-    @Select("select music.id as id,music.name as name,singer.name as singer,album.name as album,audition_url as auditionUrl,lyric,photo as image,popularity,size,like,download_num as download,dance_template as danceTemplate,uptime,commit,recommend from music join singer on singer_id=singer.id join album on album_id=album.id where music.id = #{id}")
-    public MusicAddEnt queryMusicById(Integer id);
+    @Select("select * from music where id = #{id}")
+    @Results({
+            @Result(id = true, column = "id", property = "id"),
+            @Result(property = "singers", column = "id"
+                    , many = @Many(select = "com.simdy.cms.mapper.MusicMapper.querySingerByMusicId"))
+    })    public MusicAddEnt queryMusicById(Integer id);
 
 //    @Insert("insert into music (name,) value(#{name},)")
     public Integer insertMusic(MusicAddEnt musicAddEnt);
@@ -68,6 +72,17 @@ public interface MusicMapper {
 
     @Select("")
     public List<MusicListEnt> queryMusicsBySingerId(Integer id);
+
+    @Delete("delete from label_and_music where label_id = #{id}")
+    public Integer deleteMusicAndLabelByLabelId(Integer id);
+
+    @Delete("delete from label_and_music where music_id = #{id}")
+    public Integer deleteMusicAndLabelByMusicId(Integer id);
+
+    @Delete("delete from singer_and_music where music_id = #{id}")
+    public Integer deleteSingerAndLabelByMuiscId(Integer id);
+
+
 
 
 }
