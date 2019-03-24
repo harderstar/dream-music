@@ -31,4 +31,6 @@ public interface UserMapper {
     public List<VipEnt> queryVipsByUserId(Integer id);
 
 
+
+
 }

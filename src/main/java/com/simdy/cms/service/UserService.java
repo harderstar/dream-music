@@ -22,6 +22,24 @@ public class UserService {
     UserMapper userMapper;
 
     /**
+     * 用户注册
+     * @param userViewEnt
+     * @return
+     */
+    public Boolean userRegister(UserViewEnt userViewEnt){
+        return false;
+    }
+
+    /**
+     * 用户登录
+     * @param userListEnt
+     * @return
+     */
+    public Boolean userLogin(UserListEnt userListEnt){
+        return false;
+    }
+
+    /**
      * 获取vip列表
      * @return
      */

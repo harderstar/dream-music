@@ -21,6 +21,7 @@ public class LabelService {
     @Autowired
     private MusicMapper musicMapper;
 
+
     public List<LabelListEnt> queryLabels(Integer currPage,Integer pageSize){
 
         PageHelper.startPage(currPage,pageSize);

@@ -64,7 +64,7 @@
     } from "@/api/api";
     export default {
         name: 'basetable',
-          components:{
+        components:{
             musicForm
         },
         data() {

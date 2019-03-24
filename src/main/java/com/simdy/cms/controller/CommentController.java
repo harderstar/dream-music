@@ -31,6 +31,12 @@ public class CommentController {
     @Autowired
     CommentService commentService;
 
+    /**
+     * 获取栏目树
+     * @param request
+     * @param response
+     * @return
+     */
     @GetMapping("getTree")
     public List<TreeEnt<ProgrameTreeEnt>> getTree(HttpServletRequest request, HttpServletResponse response){
 
@@ -38,6 +44,13 @@ public class CommentController {
         return list;
     }
 
+    /**
+     * 获取栏目列表
+     * @param id
+     * @param request
+     * @param response
+     * @return
+     */
     @GetMapping("getPros")
     public List<ProgrameListEnt> getProgrameList(@RequestParam("id") Integer id,
                                                  HttpServletRequest request, HttpServletResponse response){
@@ -45,12 +58,26 @@ public class CommentController {
         return programeService.getProgramesByPaId(id);
     }
 
+    /**
+     * 获取栏目详情
+     * @param id
+     * @param request
+     * @param response
+     * @return
+     */
     @GetMapping("getPro/{id}")
     public ProgrameListEnt getPrograme(@PathVariable("id") Integer id,HttpServletRequest request, HttpServletResponse response){
        ResponseMessage.DEAL_CROSS_DOMAIN(response,request);
        return programeService.getProgrameById(id);
     }
 
+    /**
+     * 更新栏目
+     * @param programeListEnt
+     * @param request
+     * @param response
+     * @return
+     */
     @PostMapping("updatePro")
     public String updatePro(@RequestBody ProgrameListEnt programeListEnt,HttpServletRequest request, HttpServletResponse response){
 
@@ -61,6 +88,13 @@ public class CommentController {
             return ResponseMessage.ERROR_MESSAGE;
     }
 
+    /**
+     * 删除栏目
+     * @param id
+     * @param request
+     * @param response
+     * @return
+     */
     @DeleteMapping("deletePro/{id}")
     public String deletePro(@PathVariable("id")Integer id,HttpServletRequest request, HttpServletResponse response){
 
@@ -72,6 +106,15 @@ public class CommentController {
 
     }
 
+    /**
+     * 获取栏目内容列表
+     * @param id
+     * @param pageSize
+     * @param curPage
+     * @param request
+     * @param response
+     * @return
+     */
     @GetMapping("getContents")
     public List<CommentListEnt> getCommentsByProId(@RequestParam("id") Integer id,
                                                    @RequestParam("pageSize") Integer pageSize,
@@ -83,7 +126,7 @@ public class CommentController {
     }
 
     /**
-     *
+     * 获取详细内容
      * @param id
      * @param request
      * @param response
@@ -94,8 +137,6 @@ public class CommentController {
         ResponseMessage.DEAL_CROSS_DOMAIN(response,request);
         return commentService.getCommentById(id);
     }
-
-
 
     /**
      * 更新内容
@@ -113,6 +154,13 @@ public class CommentController {
         return ResponseMessage.ERROR_MESSAGE;
     }
 
+    /**
+     * 删除内容
+     * @param id
+     * @param request
+     * @param response
+     * @return
+     */
     @DeleteMapping("deleteContent/{id}")
     public String deleteComment(@PathVariable("id") Integer id,HttpServletRequest request,HttpServletResponse response){
         ResponseMessage.DEAL_CROSS_DOMAIN(response,request);

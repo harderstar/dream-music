@@ -25,15 +25,32 @@ public class CommentService {
     @Autowired
     ProgrameMapper programeMapper;
 
+    /**
+     * 根据栏目Id获取内容
+     * @param proId
+     * @param curPage
+     * @param pageSize
+     * @return
+     */
     public List<CommentListEnt> getCommentsByProId(Integer proId,Integer curPage,Integer pageSize){
         PageHelper.startPage(curPage,pageSize);
         return commentMapper.queryCommentsByProID(proId);
     }
 
+    /**
+     * 根据内容id获取内容详细信息
+     * @param id
+     * @return
+     */
     public CommentAddEnt getCommentById(Integer id){
         return commentMapper.queryCommentById(id);
     }
 
+    /**
+     * 更新内容
+     * @param commentAddEnt
+     * @return
+     */
     public Boolean updateComment(CommentAddEnt commentAddEnt){
         System.out.println(commentAddEnt);
         if(commentAddEnt.getId() == null){
@@ -51,12 +68,23 @@ public class CommentService {
         }
     }
 
+    /**
+     * 根据ID删除内容
+     * @param id
+     * @return
+     */
     public Boolean deleteConmentById(Integer id){
         if(commentMapper.deleteCommentById(id) == 0)
             return false;
         else
             return true;
     }
+
+    /**
+     * 根据模型路径获取内容
+     * @param modelLocation
+     * @return
+     */
     public Map<String,List<CommentListEnt>> queryCommentsByProModelLocation(String modelLocation){
         ProgrameListEnt programe = commentMapper.queryProIdBymodelLocation(modelLocation);
         List<ProgrameTreeEnt> treeEnts = programeMapper.quertTrees();

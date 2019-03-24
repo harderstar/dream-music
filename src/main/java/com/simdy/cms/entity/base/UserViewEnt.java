@@ -32,6 +32,16 @@ public class UserViewEnt implements Serializable {
     private List<VipEnt> vip;
     @JsonView(UserDetailView.class)
     private Date last_login_time;
+    @JsonView(UserSimpleView.class)
+    private String VAPTCHA;
+
+    public String getVAPTCHA() {
+        return VAPTCHA;
+    }
+
+    public void setVAPTCHA(String VAPTCHA) {
+        this.VAPTCHA = VAPTCHA;
+    }
 
     public interface UserSimpleView {};
 

@@ -42,15 +42,20 @@ public class MusicService {
 
 
     public Boolean deleteMusicById(Integer id){
-        if(musicMapper.deleteMusicAndLabelByMusicId(id) == 1){
-            if(musicMapper.deleteMusicAndLabelByMusicId(id) == 1){
-                if(musicMapper.deleteMusic(id) == 1)
+//        if(musicMapper.deleteMusicAndLabelByMusicId(id) == 1){
+//            System.out.println("------------------------");
+//            if(musicMapper.deleteMusicAndLabelByMusicId(id) == 1){
+//                System.out.println("------------------------");
+//                if(musicMapper.deleteMusic(id) == 1){
+//                    System.out.println("------------------------");
+//                    return true;
+//                }else return false;
+//            }else return false;
+//        }else return false;
+        if(musicMapper.deleteMusic(id) == 1){
+                   System.out.println("------------------------");
                     return true;
-                else return false;
-            }else
-                return false;
-        }else
-            return false;
+        }else return false;
 
     }
 }

@@ -117,7 +117,7 @@ public class MusicController {
         return ResponseMessage.ERROR_MESSAGE;
     }
 
-    @PostMapping("deleteMusic/{id}")
+    @DeleteMapping("deleteMusic/{id}")
     public String deleteMusic(@PathVariable("id") Integer id,HttpServletRequest request,HttpServletResponse response){
         ResponseMessage.DEAL_CROSS_DOMAIN(response,request);
         if(musicService.deleteMusicById(id))

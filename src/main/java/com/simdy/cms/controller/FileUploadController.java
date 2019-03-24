@@ -29,7 +29,7 @@ public class FileUploadController {
 
         ResponseMessage.DEAL_CROSS_DOMAIN(response,request);
         //获取文件在服务器的储存位置
-        String path = request.getSession().getServletContext().getRealPath("/upload");
+        String path = "D:/imageTemp/image/upload";
         System.out.println(path);
         File filePath = new File(path);
         System.out.println("文件的保存路径：" + path);
@@ -63,7 +63,7 @@ public class FileUploadController {
             picture.transferTo(targetFile);
             System.out.println("上传成功");
             //将文件在服务器的存储路径返回
-            return new Result(true,"/upload/" + fileName);
+            return new Result(true,"http://localhost:8081/image/upload/" + fileName);
         } catch (IOException e) {
             System.out.println("上传失败");
             e.printStackTrace();
