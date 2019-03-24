@@ -81,7 +81,9 @@
 <script>
     import {
         getPros,
-        getTree
+        getTree,
+        deletePro,
+        updatePro,
     } from "@/api/api";
     export default {
         name: 'PragramaTable',
@@ -137,7 +139,6 @@
                     this.url = '/ms/table/list';
                 };
                 this.$axios.get(getPros,{
-                this.$axios.get('http://localhost:8081/manager/getPros',{
                       params:{
                             id:0
                         }
@@ -147,8 +148,7 @@
                 });
                 this.$axios.get(getTree).then((res)=>{
                     console.log(res.data);
-                this.$axios.get('http://localhost:8081/manager/getTree').then((res)=>{
-                    this.treeData = res.data
+                     this.treeData = res.data
                 })
 
             },
@@ -160,7 +160,7 @@
             },
              handleNodeClick(data) {
                 this.parentId = data.id;
-                this.$axios.get('http://localhost:8081/manager/getPros',{
+                this.$axios.get(getPros,{
                         params:{
                             id:data.id
                         }
@@ -221,7 +221,7 @@
             // 保存编辑
             saveEdit() {
                 
-                this.$axios.post('http://localhost:8081/manager/updatePro',
+                this.$axios.post(updatePro,
                        JSON.stringify(this.form),{headers: {'Content-Type': 'application/json'}}).then((res) => {
                     console.log(res.data)
                     this.tableData = res.data;
@@ -231,10 +231,8 @@
             },
             // 确定删除
             deleteRow(){
-                 this.$axios.get('http://localhost:8081/manager/deletePro',{
-                        params:{
-                            id:this.idx
-                        }
+                 this.$axios.delete(deletePro+this.idx,{
+                         
                     }).then((res) => {
                     console.log(res.data)
                     

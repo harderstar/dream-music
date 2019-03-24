@@ -57,6 +57,11 @@
 
 <script>
     import musicForm from "@/components/page/music/musicForm.vue";
+     import {
+        musics,
+        deleteMusic,
+        updateMusic,
+    } from "@/api/api";
     export default {
         name: 'basetable',
           components:{
@@ -117,8 +122,11 @@
             },
             // 获取 easy-mock 的模拟数据
             getData() {
-                this.$axios.get('http://localhost:8081/manager/musics/'+this.cur_page,{
-                      
+                this.$axios.get(musics,{
+                      params:{
+                          currePage:this.cur_page,
+                          pageSize:10
+                      }
                 }).then((res) => {
                     console.log(res.data)
                     this.tableData = res.data;
@@ -161,7 +169,7 @@
             saveEdit() {
                 this.$set(this.tableData, this.idx, this.form);
                 this.editVisible = false;
-                 this.$axios.post('http://localhost:8081/manager/music/update',
+                 this.$axios.post(updateMusic,
                        JSON.stringify(this.form),{headers: {'Content-Type': 'application/json'}}).then((res) => {
                     console.log(res.data)
                     this.tableData = res.data;
@@ -170,7 +178,7 @@
             },
             // 确定删除
             deleteRow(){
-                 this.$axios.post('http://localhost:8081/manager/music/delete/'+this.idx,{
+                 this.$axios.delete(deleteMusic+this.idx,{
                          
                     }).then((res) => {
                     console.log(res.data)

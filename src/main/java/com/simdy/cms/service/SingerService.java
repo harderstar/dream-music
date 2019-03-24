@@ -52,7 +52,7 @@ public class SingerService {
 
     public Boolean deleteSingerById(Integer id){
 
-        if(musicMapper.deleteMusicsBySingerId(id) == 1){
+        if(musicMapper.deleteSingerAndMusicByMuiscId(id) == 1){
             if(singerMapper.deleteSingerById(id) == 1)
                 return true;
             else

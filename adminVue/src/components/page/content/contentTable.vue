@@ -67,6 +67,12 @@
 
 <script>
     import contentForm from "@/components/page/content/contentForm.vue";
+    import {
+        getTree,
+        getContents,
+        deleteContent,
+        updateCom,
+    } from "@/api/api";
     export default {
         name: 'basetable',
         components:{
@@ -129,7 +135,7 @@
                 if (process.env.NODE_ENV === 'development') {
                     this.url = '/ms/table/list';
                 };
-                this.$axios.get('http://localhost:8081/manager/getcomments',{
+                this.$axios.get(getContents,{
                       params:{
                         id : this.parentId,
                         pageSize : 10,
@@ -139,7 +145,7 @@
                     console.log(res.data)
                     this.tableData = res.data;
                 });
-                this.$axios.get('http://localhost:8081/manager/getTree').then((res)=>{
+                this.$axios.get(getTree).then((res)=>{
 
                     this.treeData = res.data
                 })
@@ -153,7 +159,7 @@
             },
              handleNodeClick(data) {
                 this.parentId = data.id;
-                this.$axios.get('http://localhost:8081/manager/getcomments',{
+                this.$axios.get(getContents,{
                         params:{
                            id : this.parentId,
                            pageSize : 10,
@@ -196,7 +202,7 @@
                 
                 this.idx = index;
                 this.delVisible = true;
-                this.$axios.post('http://localhost:8081/manager/deletePro',{
+                this.$axios.post(deleteContent,{
                         params:{
                             id:data.id
                         }
@@ -221,7 +227,7 @@
             // 保存编辑
             saveEdit() {
                 
-                this.$axios.post('http://localhost:8081/manager/updateCom',
+                this.$axios.post(updateCom,
                        JSON.stringify(this.form),{headers: {'Content-Type': 'application/json'}}).then((res) => {
                     console.log(res.data)
                     this.tableData = res.data;

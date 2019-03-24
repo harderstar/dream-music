@@ -10,6 +10,7 @@ import com.simdy.cms.service.LabelService;
 import com.simdy.cms.service.MusicService;
 import com.simdy.cms.service.SingerService;
 import com.sun.org.apache.bcel.internal.generic.LMUL;
+import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,12 +34,12 @@ public class MusicController {
     @Autowired
     private LabelService labelService;
 
-    @GetMapping("labels/{currePage}")
-    public List<LabelListEnt>  queryLabels(@PathVariable("currePage") Integer currenPage){
-        return labelService.queryLabels(currenPage,10);
+    @GetMapping("getLabels")
+        public List<LabelListEnt>  queryLabels(@RequestParam("currePage") Integer currenPage,@RequestParam("pageSize") Integer pageSize ){
+        return labelService.queryLabels(currenPage,pageSize);
     }
 
-    @GetMapping("label/{id}")
+    @GetMapping("getLabel/{id}")
     public LabelAddEnt queryLabel(@PathVariable("id") Integer id){
         if(id == 0)
             return null;
@@ -46,7 +47,7 @@ public class MusicController {
             return labelService.queryLabelById(id);
     }
 
-    @PostMapping("label/update")
+    @PostMapping("updateLabel")
     public String updateLabel(@RequestBody LabelAddEnt labelAddEnt, HttpServletResponse response, HttpServletRequest request){
         ResponseMessage.DEAL_CROSS_DOMAIN(response,request);
         if(labelService.updatLabel(labelAddEnt))
@@ -54,7 +55,7 @@ public class MusicController {
         return ResponseMessage.ERROR_MESSAGE;
     }
 
-    @PostMapping("label/delete/{id}")
+    @DeleteMapping("deleteLabel/{id}")
     public String deleteLabel(@PathVariable("id") Integer id,HttpServletResponse response,HttpServletRequest request){
         ResponseMessage.DEAL_CROSS_DOMAIN(response,request);
         if(labelService.deleteLabelById(id))
@@ -63,7 +64,7 @@ public class MusicController {
             return ResponseMessage.ERROR_MESSAGE;
     }
 
-    @GetMapping("singer/get/{id}")
+    @GetMapping("getSinger/{id}")
     public SingerEnt querySinger(@PathVariable("id") Integer id){
         if(id == 0)
             return null;
@@ -73,19 +74,19 @@ public class MusicController {
 
     }
 
-    @GetMapping("singers/{currenPage}")
-    public List<SingerEnt> querySingers(@PathVariable("currenPage") Integer currenPage){
-        return singerService.querySingers(currenPage,10);
+    @GetMapping("getSingers")
+    public List<SingerEnt> querySingers(@RequestParam("currenPage") Integer currenPage,@RequestParam("pageSize") Integer pageSize){
+        return singerService.querySingers(currenPage,pageSize);
     }
 
-    @PostMapping("singer/update")
+    @PostMapping("updateSinger")
     public String updateSingers(@RequestBody SingerEnt singerEnt){
         if(singerService.updateSinger(singerEnt))
             return ResponseMessage.SUCCESS_MESSAGE;
         return ResponseMessage.ERROR_MESSAGE;
     }
 
-    @PostMapping("singer/delete/{id}")
+    @DeleteMapping("deleteSinger/{id}")
     public String deleteSinger(@PathVariable("id") Integer id){
         if(singerService.deleteSingerById(id))
             return ResponseMessage.SUCCESS_MESSAGE;
@@ -93,10 +94,10 @@ public class MusicController {
             return ResponseMessage.ERROR_MESSAGE;
     }
 
-    @GetMapping("musics/{currePage}")
-    public List<MusicListEnt> queryMusics(@PathVariable("currePage") Integer currenPage){
-        List<MusicListEnt> listEnts = musicService.queryMusics(currenPage, 10);
-        System.out.println(listEnts);
+    @GetMapping("musics")
+    public List<MusicListEnt> queryMusics(@RequestParam("currePage") Integer currenPage,@RequestParam("pageSize") Integer pageSize){
+
+        List<MusicListEnt> listEnts = musicService.queryMusics(currenPage, pageSize);
         return listEnts;
     }
 
@@ -109,14 +110,14 @@ public class MusicController {
         }
     }
 
-    @PostMapping("music/update")
+    @PostMapping("updateMusic")
     public String updateMusic(@RequestBody MusicAddEnt musicAddEnt){
         if(musicService.updateMusic(musicAddEnt))
             return ResponseMessage.SUCCESS_MESSAGE;
         return ResponseMessage.ERROR_MESSAGE;
     }
 
-    @PostMapping("music/delete/{id}")
+    @PostMapping("deleteMusic/{id}")
     public String deleteMusic(@PathVariable("id") Integer id,HttpServletRequest request,HttpServletResponse response){
         ResponseMessage.DEAL_CROSS_DOMAIN(response,request);
         if(musicService.deleteMusicById(id))

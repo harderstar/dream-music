@@ -74,6 +74,11 @@
 </template>
 
 <script>
+    import {
+        getVips,
+        getVip,
+        updateVip,
+    } from "@/api/api";
     export default {
         name: 'basetable',
         data() {
@@ -114,8 +119,11 @@
             // 获取 easy-mock 的模拟数据
            getData() {
                 
-                this.$axios.get('http://localhost:8081/manager/getVips',{
-                      
+                this.$axios.get(getVips,{
+                     params:{
+                        curPage:1,
+                        pageSize:10
+                     }
                 }).then((res) => {
                   
                     this.tableData = res.data;
@@ -125,7 +133,7 @@
 
             },
             saveEdit(){
-                this.$axios.post('http://localhost:8081/manager/updateVip',
+                this.$axios.post(updateVip,
                     JSON.stringify(this.form),{
                         headers: {'Content-Type': 'application/json'}}).then((res) => {
                     console.log(this.res.data)

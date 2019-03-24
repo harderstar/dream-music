@@ -32,10 +32,10 @@ public class UserController {
      * @return
      */
     @GetMapping("getVips")
-    public List<VipEnt> getVips(HttpServletRequest request, HttpServletResponse response){
+    public List<VipEnt> getVips(@RequestParam("curPage")Integer curPage, @RequestParam("pageSize")Integer pageSize,HttpServletRequest request, HttpServletResponse response){
         ResponseMessage.DEAL_CROSS_DOMAIN(response,request);
 
-        return userService.getVips();
+        return userService.getVips(curPage,pageSize);
     }
 
     /**
@@ -45,8 +45,8 @@ public class UserController {
      * @param response
      * @return
      */
-    @GetMapping("getVip")
-    public VipEnt getVip(Integer id,HttpServletRequest request, HttpServletResponse response){
+    @GetMapping("getVip/{id}")
+    public VipEnt getVip(@PathVariable("id") Integer id,HttpServletRequest request, HttpServletResponse response){
         ResponseMessage.DEAL_CROSS_DOMAIN(response,request);
 
         return userService.getVipById(id);
@@ -74,11 +74,11 @@ public class UserController {
      * @param response
      * @return
      */
-    @GetMapping("getUsers/{page}")
+    @GetMapping("getUsers")
     @JsonView(UserViewEnt.UserSimpleView.class)
-    public List<UserViewEnt> getUsers(@PathVariable("page")Integer page, HttpServletRequest request, HttpServletResponse response){
+    public List<UserViewEnt> getUsers(@RequestParam("curPage")Integer page,@RequestParam("pageSize") Integer pageSize, HttpServletRequest request, HttpServletResponse response){
         ResponseMessage.DEAL_CROSS_DOMAIN(response,request);
-        List<UserViewEnt> users = userService.getUsers(page, 10);
+        List<UserViewEnt> users = userService.getUsers(page, pageSize);
         return users;
 
     }

@@ -48,7 +48,7 @@
                 <el-button @click="editVisible = false">取 消</el-button>
                 <el-button type="primary" @click="saveEdit">确 定</el-button>
             </span>
-        </el-dialog>
+        </el-dialog> 
 
         <!-- 删除提示框 -->
         <el-dialog title="提示" :visible.sync="delVisible" width="300px" center>
@@ -62,6 +62,12 @@
 </template>
 
 <script>
+     import {
+        updateLabel,
+        getLabel,
+        getLabels,
+        deleteLabel,
+    } from "@/api/api"; 
     export default {
         name: 'basetable',
         data() {
@@ -117,8 +123,11 @@
             },
             // 获取 easy-mock 的模拟数据
             getData() {
-                this.$axios.get('http://localhost:8081/manager/labels/'+this.cur_page,{
-                      
+                this.$axios.get(getLabels,{
+                      params:{
+                        currePage:this.cur_page,
+                        pageSize:10,
+                      }
                 }).then((res) => {
                     console.log(res.data)
                     this.tableData = res.data;
@@ -166,7 +175,7 @@
             saveEdit() {
                 this.$set(this.tableData, this.idx, this.form);
                 this.editVisible = false;
-                 this.$axios.post('http://localhost:8081/manager/label/update',
+                 this.$axios.post(updateLabel,
                        JSON.stringify(this.form),{headers: {'Content-Type': 'application/json'}}).then((res) => {
                     console.log(res.data)
                     this.tableData = res.data;
@@ -175,7 +184,7 @@
             },
             // 确定删除
             deleteRow(){
-                 this.$axios.post('http://localhost:8081/manager/label/delete/'+this.idx,{
+                 this.$axios.delete(deleteLabel+this.idx,{
                          
                     }).then((res) => {
                     console.log(res.data)

@@ -25,7 +25,8 @@ public class UserService {
      * 获取vip列表
      * @return
      */
-    public List<VipEnt> getVips(){
+    public List<VipEnt> getVips(Integer curPage,Integer pageSize){
+        PageHelper.startPage(curPage,pageSize);
         return vipMapper.queryVips();
     };
 

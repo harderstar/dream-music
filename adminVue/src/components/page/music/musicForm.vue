@@ -45,7 +45,7 @@
                     </el-form-item>
                      <el-upload
                             ref="upload"
-                            action="http://localhost:8081/manager/upload"
+                            action=loader
                             name="picture"
                             list-type="picture-card"
                             :limit="1"
@@ -85,6 +85,10 @@
 </template>
 
 <script>
+     import {
+        music,
+        upload,
+    } from "@/api/api";
     export default {
         props:["musicId"],
         name: 'baseform',
@@ -118,7 +122,7 @@
             }
         },
         created(){
-              this.$axios.get('http://localhost:8081/manager/music/'+this.musicId).then((res)=>{
+              this.$axios.get(music+this.musicId).then((res)=>{
                 this.options = res.data
                 console.log(this.options)
              })

@@ -39,13 +39,14 @@ public class CommentController {
     }
 
     @GetMapping("getPros")
-    public List<ProgrameListEnt> getProgrameList(Integer id,HttpServletRequest request, HttpServletResponse response){
+    public List<ProgrameListEnt> getProgrameList(@RequestParam("id") Integer id,
+                                                 HttpServletRequest request, HttpServletResponse response){
         ResponseMessage.DEAL_CROSS_DOMAIN(response,request);
         return programeService.getProgramesByPaId(id);
     }
 
-    @GetMapping("getPro")
-    public ProgrameListEnt getPrograme(Integer id,HttpServletRequest request, HttpServletResponse response){
+    @GetMapping("getPro/{id}")
+    public ProgrameListEnt getPrograme(@PathVariable("id") Integer id,HttpServletRequest request, HttpServletResponse response){
        ResponseMessage.DEAL_CROSS_DOMAIN(response,request);
        return programeService.getProgrameById(id);
     }
@@ -60,7 +61,7 @@ public class CommentController {
             return ResponseMessage.ERROR_MESSAGE;
     }
 
-    @GetMapping("deletePro/{id}")
+    @DeleteMapping("deletePro/{id}")
     public String deletePro(@PathVariable("id")Integer id,HttpServletRequest request, HttpServletResponse response){
 
         ResponseMessage.DEAL_CROSS_DOMAIN(response,request);
@@ -71,7 +72,7 @@ public class CommentController {
 
     }
 
-    @GetMapping("getcomments")
+    @GetMapping("getContents")
     public List<CommentListEnt> getCommentsByProId(@RequestParam("id") Integer id,
                                                    @RequestParam("pageSize") Integer pageSize,
                                                    @RequestParam("curPage") Integer curPage,
@@ -88,7 +89,7 @@ public class CommentController {
      * @param response
      * @return
      */
-    @GetMapping("getcomment/{id}")
+    @GetMapping("getContent/{id}")
     public CommentAddEnt getComment(@PathVariable("id")Integer id,HttpServletRequest request,HttpServletResponse response){
         ResponseMessage.DEAL_CROSS_DOMAIN(response,request);
         return commentService.getCommentById(id);
@@ -112,7 +113,7 @@ public class CommentController {
         return ResponseMessage.ERROR_MESSAGE;
     }
 
-    @PostMapping("delete/{id}")
+    @DeleteMapping("deleteContent/{id}")
     public String deleteComment(@PathVariable("id") Integer id,HttpServletRequest request,HttpServletResponse response){
         ResponseMessage.DEAL_CROSS_DOMAIN(response,request);
         if(commentService.deleteConmentById(id))

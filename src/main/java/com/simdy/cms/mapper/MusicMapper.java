@@ -80,7 +80,7 @@ public interface MusicMapper {
     public Integer deleteMusicAndLabelByMusicId(Integer id);
 
     @Delete("delete from singer_and_music where music_id = #{id}")
-    public Integer deleteSingerAndLabelByMuiscId(Integer id);
+    public Integer deleteSingerAndMusicByMuiscId(Integer id);
 
 
 

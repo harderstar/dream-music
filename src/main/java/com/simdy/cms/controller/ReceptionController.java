@@ -29,7 +29,7 @@ public class ReceptionController {
     @Autowired
     CommentService commentService;
 
-    @GetMapping("quaryComments/{modelLocation}")
+    @GetMapping("queryContent/{modelLocation}")
     public Map<String,List<CommentListEnt>> getCommentsByModelLocation(@PathVariable("modelLocation") String modelLocation, HttpServletRequest request, HttpServletResponse response){
         ResponseMessage.DEAL_CROSS_DOMAIN(response,request);
         return commentService.queryCommentsByProModelLocation(modelLocation);

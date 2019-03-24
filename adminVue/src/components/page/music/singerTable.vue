@@ -70,6 +70,11 @@
 </template>
 
 <script>
+    import {
+        getSingers, 
+        updateSinger,
+        deleteSinger,
+    } from "@/api/api";
     export default {
         name: 'basetable',
         data() {
@@ -127,8 +132,11 @@
             },
             // 获取 easy-mock 的模拟数据
             getData() {
-                this.$axios.get('http://localhost:8081/manager/singers/'+this.cur_page,{
-                      
+                this.$axios.get(getSingers,{
+                    params:{
+                        pageSize:10,
+                        currenPage:1,
+                    }
                 }).then((res) => {
                     console.log(res.data)
                     this.tableData = res.data;
@@ -178,7 +186,7 @@
             saveEdit() {
                 this.$set(this.tableData, this.idx, this.form);
                 this.editVisible = false;
-                 this.$axios.post('http://localhost:8081/manager/singer/update',
+                 this.$axios.post(updateSinger,
                        JSON.stringify(this.form),{headers: {'Content-Type': 'application/json'}}).then((res) => {
                     console.log(res.data)
                     this.tableData = res.data;
@@ -187,7 +195,7 @@
             },
             // 确定删除
             deleteRow(){
-                 this.$axios.post('http://localhost:8081/manager/singer/delete/'+this.idx,{
+                 this.$axios.delete(deleteSinger+this.idx,{
                          
                     }).then((res) => {
                     console.log(res.data)
