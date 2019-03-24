@@ -48,7 +48,7 @@
                     </el-form-item>
                      <el-upload
                             ref="upload"
-                            action="http://localhost:8081/manager/upload"
+                            action=upload
                             name="picture"
                             list-type="picture-card"
                             :limit="1"
@@ -88,6 +88,10 @@
 </template>
 
 <script>
+  import {
+        getContent,
+        upload,
+    } from "@/api/api";
     export default {
         props:["contId","proId"],
         name: 'baseform',
@@ -121,7 +125,7 @@
             }
         },
         created(){
-              this.$axios.get('http://localhost:8081/manager/getcomment/'+this.contId).then((res)=>{
+              this.$axios.get(getContent+this.contId).then((res)=>{
                 this.options = res.data
                 console.log(this.options)
              })
