@@ -1,4 +1,4 @@
- var url = "http://localhost:8081/manager/";
+ var url = "http://203.195.237.37:8081/manager/";
  var getPros = url+'getPros';
  var getTree = url+'getTree';
  var deletePro = url+'deletePro/';

@@ -94,7 +94,7 @@
     } from "@/api/api";
     export default {
         props:["contId","proId"],
-        name: 'baseform',
+        name: 'ContentForm',
         data: function(){
             return {
                 options:[],

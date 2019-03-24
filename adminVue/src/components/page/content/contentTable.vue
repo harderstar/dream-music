@@ -66,7 +66,7 @@
 </template>
 
 <script>
-    import contentForm from "@/components/page/content/contentForm.vue";
+    import ContentForm from "@/components/page/content/ContentForm.vue";
     import {
         getTree,
         getContents,
@@ -74,9 +74,9 @@
         updateCom,
     } from "@/api/api";
     export default {
-        name: 'basetable',
+        name: 'ContentTable',
         components:{
-            contentForm
+            ContentForm
         },
         data() {
             return {

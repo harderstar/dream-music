@@ -26,7 +26,7 @@ export default new Router({
                 },
                 {
                     path: '/contentTable',
-                    component: resolve => require(['../components/page/content/contentTable.vue'], resolve),
+                    component: resolve => require(['../components/page/content/ContentTable.vue'], resolve),
                     meta: { title: '内容列表' }
                 },
                 {
@@ -34,7 +34,6 @@ export default new Router({
                     component: resolve => require(['../components/page/preview/previewTable.vue'], resolve),
                     meta: { title: '预览列表' }
                 },
-                
                  
                 {
                     path: '/musicTable',
@@ -140,7 +139,7 @@ export default new Router({
                 },
                 {
                     path:'/content/add',
-                    component: resolve => require(['../components/page/content/contentForm.vue'],resolve),
+                    component: resolve => require(['../components/page/content/ContentForm.vue'],resolve),
                     meta: {title:'内容编辑'}
                 },
             ]
