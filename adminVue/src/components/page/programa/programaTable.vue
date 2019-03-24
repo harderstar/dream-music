@@ -12,7 +12,6 @@
             <div class="container">
                 <div class="handle-box">
                     <el-button type="primary" icon="add" class="handle-del mr10"  @click="handleAdd()" >栏目添加</el-button>
-
                 </div>
                 <el-table :data="tableData" border class="table" ref="multipleTable" @selection-change="handleSelectionChange">
                     <el-table-column type="selection" width="55" align="center"></el-table-column>
@@ -61,14 +60,12 @@
                      <el-form-item label="站点">
                         <el-input v-model="form.stationId"></el-input>
                     </el-form-item>
-                    
                 </el-form>
                 <span slot="footer" class="dialog-footer">
                     <el-button @click="editVisible = false">取 消</el-button>
                     <el-button type="primary" @click="saveEdit">确 定</el-button>
                 </span>
             </el-dialog>
-
             <!-- 删除提示框 -->
             <el-dialog title="提示" :visible.sync="delVisible" width="300px" center>
                 <div class="del-dialog-cnt">删除不可恢复，是否确定删除？</div>
@@ -82,10 +79,12 @@
 </template>
 
 <script>
+    import {
+        getPros,
+        getTree
+    } from "@/api/api";
     export default {
-        
-        name: 'basetable',
-     
+        name: 'PragramaTable',
         data() {
             return {
                 url: './vuetable.json',
@@ -137,16 +136,18 @@
                 if (process.env.NODE_ENV === 'development') {
                     this.url = '/ms/table/list';
                 };
+                this.$axios.get(getPros,{
                 this.$axios.get('http://localhost:8081/manager/getPros',{
                       params:{
                             id:0
                         }
                 }).then((res) => {
-                    console.log(res.data)
+                    console.log(res.data);
                     this.tableData = res.data;
                 });
+                this.$axios.get(getTree).then((res)=>{
+                    console.log(res.data);
                 this.$axios.get('http://localhost:8081/manager/getTree').then((res)=>{
-
                     this.treeData = res.data
                 })
 
