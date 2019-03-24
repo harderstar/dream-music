@@ -6,17 +6,28 @@ public class LabelListEnt {
     private String name;
     private Integer isTip;
     private Integer isCash;
-    private Integer sourceTimes;
+    private Integer searchTimes;
 
     public LabelListEnt() {
     }
 
-    public LabelListEnt(Integer id, String name, Integer isTip, Integer isCash, Integer sourceTimes) {
+    public LabelListEnt(Integer id, String name, Integer isTip, Integer isCash, Integer searchTimes) {
         this.id = id;
         this.name = name;
         this.isTip = isTip;
         this.isCash = isCash;
-        this.sourceTimes = sourceTimes;
+        this.searchTimes = searchTimes;
+    }
+
+    @Override
+    public String toString() {
+        return "LabelListEnt{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", isTip=" + isTip +
+                ", isCash=" + isCash +
+                ", sourceTimes=" + searchTimes +
+                '}';
     }
 
     public Integer getId() {
@@ -51,11 +62,11 @@ public class LabelListEnt {
         this.isCash = isCash;
     }
 
-    public Integer getSourceTimes() {
-        return sourceTimes;
+    public Integer getSearchTimes() {
+        return searchTimes;
     }
 
-    public void setSourceTimes(Integer sourceTimes) {
-        this.sourceTimes = sourceTimes;
+    public void setSearchTimes(Integer searchTimes) {
+        this.searchTimes = searchTimes;
     }
 }

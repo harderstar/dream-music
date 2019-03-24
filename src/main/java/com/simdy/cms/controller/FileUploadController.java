@@ -1,57 +1,74 @@
 package com.simdy.cms.controller;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import com.simdy.cms.Static.ResponseMessage;
+import com.simdy.cms.entity.Result;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 @RestController()
+@CrossOrigin
+@RequestMapping("manager")
 public class FileUploadController {
 
-    @PostMapping("upload")
-    public String uploadFile(@RequestParam(required = false,value = "file") MultipartFile file, HttpServletRequest request) throws Exception {
+    /**
+     * 文件上传
+     * @param picture
+     * @param request
+     * @return
+     */
+    @PostMapping("/upload")
+    public Result upload(MultipartFile picture, HttpServletRequest request, HttpServletResponse response) {
 
-        // 判断用户是否登录
-        if (file!=null) {// 判断上传的文件是否为空
-            String path=null;// 文件路径
-            String type=null;// 文件类型
-            String fileName=file.getOriginalFilename();// 文件原名称
-            System.out.println("上传的文件原名称:"+fileName);
-            // 判断文件类型
-            type=fileName.indexOf(".")!=-1?fileName.substring(fileName.lastIndexOf(".")+1, fileName.length()):null;
-            if (type!=null) {// 判断文件类型是否为空
-                if ("GIF".equals(type.toUpperCase())||"PNG".equals(type.toUpperCase())||"JPG".equals(type.toUpperCase())) {
-
-                    String realPath=request.getServletContext().getRealPath("/images/");
-                    // 自定义的文件名称
-                    String trueFileName=String.valueOf(System.currentTimeMillis())+fileName;
-                    // 设置存放图片文件的路径
-                    path = realPath + trueFileName;
-                    System.out.println("存放图片文件的路径:"+path);
-                    // 转存文件到指定的路径
-                        System.out.println("文件成功上传到指定目录下");
-//                    Student student = new Student();
-//                    student.setId(id);
-//                    student.setPicture("images/"+trueFileName);
-//                    boolean updateMessage = messageService.updateMessagepic(student);
-                      return "images/"+trueFileName;
-                }else {
-                    System.out.println("不是我们想要的文件类型,请按要求重新上传");
-                    return "errortype";
-                }
-            }else {
-                System.out.println("文件类型为空");
-                return "nulltype";
-            }
-        }else {
-            System.out.println("没有找到相对应的文件");
-            return "nulltype";
+        ResponseMessage.DEAL_CROSS_DOMAIN(response,request);
+        //获取文件在服务器的储存位置
+        String path = request.getSession().getServletContext().getRealPath("/upload");
+        System.out.println(path);
+        File filePath = new File(path);
+        System.out.println("文件的保存路径：" + path);
+        if (!filePath.exists() && !filePath.isDirectory()) {
+            System.out.println("目录不存在，创建目录:" + filePath);
+            filePath.mkdir();
         }
 
+        //获取原始文件名称(包含格式)
+        String originalFileName = picture.getOriginalFilename();
+        System.out.println("原始文件名称：" + originalFileName);
+
+        //获取文件类型，以最后一个`.`为标识
+        String type = originalFileName.substring(originalFileName.lastIndexOf(".") + 1);
+        System.out.println("文件类型：" + type);
+        //获取文件名称（不包含格式）
+        String name = originalFileName.substring(0, originalFileName.lastIndexOf("."));
+
+        //设置文件新名称: 当前时间+文件名称（不包含格式）
+        Date d = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+        String date = sdf.format(d);
+        String fileName = date + name + "." + type;
+        System.out.println("新文件名称：" + fileName);
+
+        //在指定路径下创建一个文件
+        File targetFile = new File(path, fileName);
+
+        //将文件保存到服务器指定位置
+        try {
+            picture.transferTo(targetFile);
+            System.out.println("上传成功");
+            //将文件在服务器的存储路径返回
+            return new Result(true,"/upload/" + fileName);
+        } catch (IOException e) {
+            System.out.println("上传失败");
+            e.printStackTrace();
+            return new Result(false, "上传失败");
+        }
     }
 
 }

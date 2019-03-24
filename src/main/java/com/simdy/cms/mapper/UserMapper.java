@@ -1,16 +1,22 @@
 package com.simdy.cms.mapper;
 
+import com.simdy.cms.entity.base.LabelListEnt;
 import com.simdy.cms.entity.base.UserListEnt;
 import com.simdy.cms.entity.base.UserViewEnt;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import com.simdy.cms.entity.base.VipEnt;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
 public interface UserMapper {
-    @Select("select * from user limit #{currPage},#{pageSize}")
-    public List<UserListEnt> queryUsers(Integer currPage, Integer pageSize);
+
+    @Results({
+            @Result(id = true, column = "id", property = "id"),
+            @Result(property = "vip" ,column = "id"
+                    ,many = @Many(select = "com.simdy.cms.mapper.UserMapper.queryVipsByUserId"))
+    })
+    @Select("SELECT *  FROM USER")
+    public List<UserViewEnt> queryUsers();
 
     @Select("select id,name,password,sex,birthdate,sign,phonenumber as phoneNum,wechat,safe_question as safeQuestion,safe_answer as safeAnswer,power,last_login_time as lastLoginTime from user where id =#{id}")
     public UserViewEnt queryUserById(Integer id);
@@ -20,6 +26,9 @@ public interface UserMapper {
 
     @Update("update user set name=#{name},password=#{password},sex=#{sex},birthdate=#{birthdate},sign=#{sign},phonenumber=#{phoneNum},wechat=#{wechat},safe_question=#{safeQuestion},safe_answer=#{safeAnswer} where id =#{id}")
     public Integer updateUser(UserViewEnt userViewEnt);
+
+    @Select("select * from user_vip,vip where user_vip.uid=#{id} and user_vip.vid = vip.id")
+    public List<VipEnt> queryVipsByUserId(Integer id);
 
 
 }

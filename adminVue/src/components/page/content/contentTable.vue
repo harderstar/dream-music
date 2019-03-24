@@ -1,26 +1,34 @@
 <template>
     <div style="display:flex">
-        <el-tree style="width:250px" :data="treeData" :props="defaultProps"  @node-click="handleNodeClick"></el-tree>
+        <el-tree 
+            style="width:250px" 
+            :data="treeData" 
+            :props="defaultProps"
+            
+            @node-click="handleNodeClick"></el-tree>
         <div class="table">
             
             <div class="container">
                 <div class="handle-box">
-                    <el-button type="primary" icon="add" class="handle-del mr10"  @click="handleAdd()" >栏目添加</el-button>
+                    <el-button type="primary" icon="add" class="handle-del mr10"  @click="handleAdd()" >内容添加</el-button>
 
                 </div>
                 <el-table :data="tableData" border class="table" ref="multipleTable" @selection-change="handleSelectionChange">
                     <el-table-column type="selection" width="55" align="center"></el-table-column>
-                    <el-table-column prop="id" label="ID" sortable width="150">
+                     
+                    <el-table-column prop="title" label="标题">
                     </el-table-column>
-                    <el-table-column prop="value" label="栏目名称" width="120">
+                    <el-table-column prop="stickLevel" label="置顶" width="100">
                     </el-table-column>
-                    <el-table-column prop="modelLocation" label="栏目路径" :formatter="formatter">
+                    <el-table-column prop="clickNum" label="浏览量"  width="100">
                     </el-table-column>
-                    <el-table-column prop="type" label="类型" :formatter="formatter">
+                    <el-table-column prop="uptime" label="上传时间"  width="100">
                     </el-table-column>
-                    <el-table-column prop="isShow" label="显示" :formatter="formatter">
+                    <el-table-column prop="issuer" label="发布者"  width="100">
                     </el-table-column>
-
+                    
+                    <el-table-column prop="commit" label="状态" width="120" >
+                    </el-table-column>
                     <el-table-column label="操作" width="180" align="center">
                         <template slot-scope="scope">
                             <el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
@@ -35,32 +43,14 @@
             </div>
 
             <!-- 编辑弹出框 -->
-            <el-dialog title="编辑" :visible.sync="editVisible" width="40%">
-                <el-form ref="form" :model="form" label-width="100px">
-                    <el-form-item label="上级栏目">
-                        <el-input v-model="form.parentId" :disabled="true"></el-input>
-                    </el-form-item>
-                    <el-form-item label="栏目名称">
-                        <el-input v-model="form.value"></el-input>
-                    </el-form-item>
-                    <el-form-item label="栏目地址">
-                        <el-input v-model="form.modelLocation"></el-input>
-                    </el-form-item>
-                    <el-form-item label="是否展示">
-                        <el-input v-model="form.isShow"></el-input>
-                    </el-form-item>
-                    <el-form-item label="每页记录数">
-                        <el-input v-model="form.count"></el-input>
-                    </el-form-item>
-                     <el-form-item label="站点">
-                        <el-input v-model="form.stationId"></el-input>
-                    </el-form-item>
-                    
-                </el-form>
-                <span slot="footer" class="dialog-footer">
-                    <el-button @click="editVisible = false">取 消</el-button>
-                    <el-button type="primary" @click="saveEdit">确 定</el-button>
-                </span>
+            <el-dialog title="编辑" 
+                :visible.sync="editVisible" 
+                width="85%"
+                id=""
+                :close-on-click-modal="false"
+                :before-close="handleClose">
+                <content-form v-if="editVisible" :proId="proId" :contId="contId" @changeValue="changeValue">
+                </content-form>
             </el-dialog>
 
             <!-- 删除提示框 -->
@@ -76,8 +66,12 @@
 </template>
 
 <script>
+    import contentForm from "@/components/page/content/contentForm.vue";
     export default {
         name: 'basetable',
+        components:{
+            contentForm
+        },
         data() {
             return {
                 url: './vuetable.json',
@@ -91,6 +85,8 @@
                 editVisible: false,
                 delVisible: false,
                 parentId: '',
+                proId:0,
+                contId:0,
                 form: {
                     id:'',
                     value:'',
@@ -113,8 +109,9 @@
             }
         },
         created() {
+            this.parentId = 0;
             this.getData();
-            parentId = 0;
+           // this.parentId = 0;
          },
      
         methods: {
@@ -123,21 +120,26 @@
                 this.cur_page = val;
                 this.getData();
             },
+            changeValue(data){
+                
+            },
             // 获取 easy-mock 的模拟数据
             getData() {
                 // 开发环境使用 easy-mock 数据，正式环境使用 json 文件
                 if (process.env.NODE_ENV === 'development') {
                     this.url = '/ms/table/list';
                 };
-                this.$axios.get('http://localhost:8081/getPros',{
+                this.$axios.get('http://localhost:8081/manager/getcomments',{
                       params:{
-                            id:0
-                        }
+                        id : this.parentId,
+                        pageSize : 10,
+                        curPage : 1,
+                      },
                 }).then((res) => {
                     console.log(res.data)
                     this.tableData = res.data;
                 });
-                this.$axios.get('http://localhost:8081/getTree').then((res)=>{
+                this.$axios.get('http://localhost:8081/manager/getTree').then((res)=>{
 
                     this.treeData = res.data
                 })
@@ -150,15 +152,16 @@
                 return row.address;
             },
              handleNodeClick(data) {
-                 this.parentId = data.id;
-                this.$axios.get('http://localhost:8081/getPros',{
+                this.parentId = data.id;
+                this.$axios.get('http://localhost:8081/manager/getcomments',{
                         params:{
-                            id:data.id
-                        }
-                    }).then((res) => {
+                           id : this.parentId,
+                           pageSize : 10,
+                           curPage : 1,
+                         },
+                }).then((res) => {
                     console.log(res.data)
                     this.tableData = res.data;
-                    this.parentId = data.id;
                 });
                 
             },
@@ -190,9 +193,17 @@
                 this.editVisible = true;
             },
             handleDelete(index, row) {
+                
                 this.idx = index;
                 this.delVisible = true;
-                
+                this.$axios.post('http://localhost:8081/manager/deletePro',{
+                        params:{
+                            id:data.id
+                        }
+                    }).then((res) => {
+                    console.log(res.data)
+                    
+                });
             },
             delAll() {
                 const length = this.multipleSelection.length;
@@ -210,7 +221,7 @@
             // 保存编辑
             saveEdit() {
                 
-                this.$axios.post('http://localhost:8081/updatePro',
+                this.$axios.post('http://localhost:8081/manager/updateCom',
                        JSON.stringify(this.form),{headers: {'Content-Type': 'application/json'}}).then((res) => {
                     console.log(res.data)
                     this.tableData = res.data;

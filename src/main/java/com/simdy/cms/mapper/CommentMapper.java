@@ -3,19 +3,22 @@ package com.simdy.cms.mapper;
 
 import com.simdy.cms.entity.base.CommentAddEnt;
 import com.simdy.cms.entity.base.CommentListEnt;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import com.simdy.cms.entity.base.ProgrameListEnt;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
 public interface CommentMapper {
 
-    @Select("SELECT comment.id,comment.`type`,`stick_level`,`issuer`,`title`,`click_num`,`commit`,`uptime`,`value` FROM `comment`,`programe` WHERE comment.programeId=programe.id AND programeId = #{proId}")
+    @Results({
+            @Result(property = "programe",column = "programeId"
+            ,one = @One(select = "com.simdy.cms.mapper.ProgrameMapper.queryProgrameById"))
+        }
+    )
+    @Select("SELECT * FROM comment where programeId = #{proId}")
     public List<CommentListEnt> queryCommentsByProID(Integer proId);
 
-    @Select("")
+    @Select("select * from comment where id = #{id}")
     public CommentAddEnt queryCommentById(Integer id);
 
     @Delete("")
@@ -26,4 +29,7 @@ public interface CommentMapper {
 
     @Update("")
     public Integer updateComment(CommentAddEnt commentAddEnt);
+
+    @Select("SELECT * from programe where model_location = #{modelLocation}")
+    public ProgrameListEnt queryProIdBymodelLocation(String modelLocation);
 }

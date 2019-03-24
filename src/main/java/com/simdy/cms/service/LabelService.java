@@ -1,5 +1,6 @@
 package com.simdy.cms.service;
 
+import com.github.pagehelper.PageHelper;
 import com.simdy.cms.entity.base.LabelAddEnt;
 import com.simdy.cms.entity.base.LabelListEnt;
 import com.simdy.cms.mapper.LabelMapper;
@@ -22,7 +23,8 @@ public class LabelService {
 
     public List<LabelListEnt> queryLabels(Integer currPage,Integer pageSize){
 
-        return labelMapper.queryLabels(currPage,pageSize);
+        PageHelper.startPage(currPage,pageSize);
+        return labelMapper.queryLabels();
 
     }
 
@@ -31,7 +33,8 @@ public class LabelService {
     }
 
     public Boolean updatLabel(LabelAddEnt labelAddEnt){
-        if(labelAddEnt.getId() != null){
+        System.out.println(labelAddEnt);
+        if(labelAddEnt.getId() == null){
             if(labelMapper.insertLabel(labelAddEnt) == 1)
                 return true;
             else
@@ -45,7 +48,7 @@ public class LabelService {
     }
 
     public Boolean deleteLabelById(Integer id){
-        if(musicMapper.deleteMusicsBySingerId(id) == 1){
+        if(musicMapper.deleteMusicAndLabelByLabelId(id) == 1){
             if(labelMapper.deleteLabelById(id) == 1)
                 return true;
             else

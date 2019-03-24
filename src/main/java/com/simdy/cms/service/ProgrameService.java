@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -47,7 +48,17 @@ public class ProgrameService {
 
             return true;
         }
+    }
 
+    public boolean deletePro(Integer id){
+        List<ProgrameTreeEnt> programes = programeMapper.quertTrees();
+        TreeTraverse<ProgrameTreeEnt> treeEntTreeTraverse = new TreeTraverse<>();
+        List<Integer> treeNodes = treeEntTreeTraverse.queryTreeNode(id, programes);
+        for (Integer nodeId:treeNodes) {
+            if(programeMapper.deleteProgrameById(nodeId)==0)
+                return false;
+        }
+        return true;
     }
 
 }

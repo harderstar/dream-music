@@ -5,7 +5,7 @@ import java.util.Date;
 public class CommentAddEnt {
 
     private Integer id;
-    private String programe;
+    private Integer programe;
     private String type;
     private Integer stickLevel;
     private String issuer;
@@ -18,11 +18,13 @@ public class CommentAddEnt {
     private String digest;
     private String commentImage;
     private String detail;
+    private Integer music;
 
     public CommentAddEnt() {
     }
 
-    public CommentAddEnt(Integer id, String programe, String type, Integer stickLevel, String issuer, String title, String subtitle, String titleColor, Integer commit, Date uptime, String externalLink, String digest, String commentImage, String detail) {
+    public CommentAddEnt(Integer music,Integer id, Integer programe, String type, Integer stickLevel, String issuer, String title, String subtitle, String titleColor, Integer commit, Date uptime, String externalLink, String digest, String commentImage, String detail) {
+        this.music = music;
         this.id = id;
         this.programe = programe;
         this.type = type;
@@ -39,6 +41,14 @@ public class CommentAddEnt {
         this.detail = detail;
     }
 
+    public Integer getMusic() {
+        return music;
+    }
+
+    public void setMusic(Integer music) {
+        this.music = music;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -47,11 +57,11 @@ public class CommentAddEnt {
         this.id = id;
     }
 
-    public String getPrograme() {
+    public Integer getPrograme() {
         return programe;
     }
 
-    public void setPrograme(String programe) {
+    public void setPrograme(Integer programe) {
         this.programe = programe;
     }
 

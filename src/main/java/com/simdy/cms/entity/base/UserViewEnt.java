@@ -1,34 +1,43 @@
 package com.simdy.cms.entity.base;
 
+
+import com.fasterxml.jackson.annotation.JsonView;
+
+import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
-public class UserViewEnt {
+public class UserViewEnt implements Serializable {
+    @JsonView(UserSimpleView.class)
     private Integer id;
+    @JsonView(UserSimpleView.class)
     private String name;
+    @JsonView(UserDetailView.class)
     private String password;
+    @JsonView(UserDetailView.class)
     private String sex;
+    @JsonView(UserDetailView.class)
     private Date birthdate;
+    @JsonView(UserDetailView.class)
     private String sign;
-    private String phoneNum;
+    @JsonView(UserSimpleView.class)
+    private String phonenumber;
+    @JsonView(UserDetailView.class)
     private String wechat;
+    @JsonView(UserDetailView.class)
     private String safeQuestion;
+    @JsonView(UserDetailView.class)
     private String safeAnswer;
-    private Integer vip;
-    private Date lastLoginTime;
+    @JsonView(UserSimpleView.class)
+    private List<VipEnt> vip;
+    @JsonView(UserDetailView.class)
+    private Date last_login_time;
 
-    public UserViewEnt(Integer id, String name, String password, String sex, Date birthdate, String sign, String phoneNum, String wechat, String safeQuestion, String safeAnswer, Integer vip, Date lastLoginTime) {
-        this.id = id;
-        this.name = name;
-        this.password = password;
-        this.sex = sex;
-        this.birthdate = birthdate;
-        this.sign = sign;
-        this.phoneNum = phoneNum;
-        this.wechat = wechat;
-        this.safeQuestion = safeQuestion;
-        this.safeAnswer = safeAnswer;
-        this.vip = vip;
-        this.lastLoginTime = lastLoginTime;
+    public interface UserSimpleView {};
+
+    public interface UserDetailView extends  UserSimpleView {};
+
+    public UserViewEnt() {
     }
 
     public Integer getId() {
@@ -39,6 +48,7 @@ public class UserViewEnt {
         this.id = id;
     }
 
+
     public String getName() {
         return name;
     }
@@ -46,6 +56,7 @@ public class UserViewEnt {
     public void setName(String name) {
         this.name = name;
     }
+
 
     public String getPassword() {
         return password;
@@ -55,6 +66,7 @@ public class UserViewEnt {
         this.password = password;
     }
 
+
     public String getSex() {
         return sex;
     }
@@ -62,6 +74,7 @@ public class UserViewEnt {
     public void setSex(String sex) {
         this.sex = sex;
     }
+
 
     public Date getBirthdate() {
         return birthdate;
@@ -71,6 +84,7 @@ public class UserViewEnt {
         this.birthdate = birthdate;
     }
 
+
     public String getSign() {
         return sign;
     }
@@ -79,13 +93,15 @@ public class UserViewEnt {
         this.sign = sign;
     }
 
-    public String getPhoneNum() {
-        return phoneNum;
+
+    public String getPhonenumber() {
+        return phonenumber;
     }
 
-    public void setPhoneNum(String phoneNum) {
-        this.phoneNum = phoneNum;
+    public void setPhonenumber(String phonenumber) {
+        this.phonenumber = phonenumber;
     }
+
 
     public String getWechat() {
         return wechat;
@@ -95,6 +111,7 @@ public class UserViewEnt {
         this.wechat = wechat;
     }
 
+
     public String getSafeQuestion() {
         return safeQuestion;
     }
@@ -102,6 +119,7 @@ public class UserViewEnt {
     public void setSafeQuestion(String safeQuestion) {
         this.safeQuestion = safeQuestion;
     }
+
 
     public String getSafeAnswer() {
         return safeAnswer;
@@ -111,27 +129,21 @@ public class UserViewEnt {
         this.safeAnswer = safeAnswer;
     }
 
-    public Integer getVip() {
+
+    public List<VipEnt> getVip() {
         return vip;
     }
 
-    public void setVip(Integer vip) {
+    public void setVip(List<VipEnt> vip) {
         this.vip = vip;
     }
 
-    public Date getLastLoginTime() {
-        return lastLoginTime;
-    }
-
-    public void setLastLoginTime(Date lastLoginTime) {
-        this.lastLoginTime = lastLoginTime;
-    }
 
     public Date getLast_login_time() {
-        return lastLoginTime;
+        return last_login_time;
     }
 
     public void setLast_login_time(Date last_login_time) {
-        this.lastLoginTime = last_login_time;
+        this.last_login_time = last_login_time;
     }
 }

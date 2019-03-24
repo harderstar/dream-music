@@ -140,7 +140,7 @@ export default new Router({
                 },
                 {
                     path:'/content/add',
-                    component: resolve => require(['../components/page/content/ContentForm.vue'],resolve),
+                    component: resolve => require(['../components/page/content/contentForm.vue'],resolve),
                     meta: {title:'内容编辑'}
                 },
             ]

@@ -10,8 +10,8 @@ import java.util.List;
 
 public interface SingerMapper {
 
-    @Select("select id,name,sex,birthdate as birthday,introduction,hot_level as hotLevel from singer limit #{currPage},#{pageSize}")
-    public List<SingerEnt> querySingers(Integer currPage,Integer pageSize);
+    @Select("select id,name,sex,birthdate as birthday,introduction,hot_level as hotLevel from singer")
+    public List<SingerEnt> querySingers();
 
     @Select("select id,name,sex,birthdate as birthday,introduction,hot_level as hotLevel from singer where id = #{id}")
     public SingerEnt querySingerById(Integer id);

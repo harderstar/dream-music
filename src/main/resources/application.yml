@@ -3,7 +3,7 @@ spring:
     username: root
     password: myroot
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://203.195.237.37:3306/dream-music-db?useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/dream-music-db?useUnicode=true&characterEncoding=UTF-8
     type: com.alibaba.druid.pool.DruidDataSource
     #   数据源其他配置
     initialSize: 5
@@ -27,3 +27,8 @@ spring:
 #     - classpath:sql/employee.sql
 server:
   port: 8081
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql

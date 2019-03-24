@@ -1,5 +1,6 @@
 package com.simdy.cms.service;
 
+import com.github.pagehelper.PageHelper;
 import com.simdy.cms.entity.base.MusicAddEnt;
 import com.simdy.cms.entity.base.MusicListEnt;
 import com.simdy.cms.mapper.MusicMapper;
@@ -17,7 +18,8 @@ public class MusicService {
     private MusicMapper musicMapper;
 
     public List<MusicListEnt> queryMusics(Integer currPage,Integer pageSize){
-        return musicMapper.queryMusics(currPage,pageSize);
+        PageHelper.startPage(currPage,pageSize);
+        return musicMapper.queryMusics();
     }
 
     public MusicAddEnt queryMusicById(Integer id){
@@ -38,10 +40,17 @@ public class MusicService {
         }
     }
 
+
     public Boolean deleteMusicById(Integer id){
-        if(musicMapper.deleteMusicsBySingerId(id) == 1)
-            return true;
-        else
+        if(musicMapper.deleteMusicAndLabelByMusicId(id) == 1){
+            if(musicMapper.deleteMusicAndLabelByMusicId(id) == 1){
+                if(musicMapper.deleteMusic(id) == 1)
+                    return true;
+                else return false;
+            }else
+                return false;
+        }else
             return false;
+
     }
 }
