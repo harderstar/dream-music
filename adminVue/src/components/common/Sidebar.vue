@@ -67,12 +67,12 @@
                         subs:[
                             {
                                 icon: 'el-icon-lx-cascades',
-                                index: 'programaTable',
+                                index: 'programaTable/publise',
                                 title: '栏目发布'
                             },
                             {
                                 icon: 'el-icon-lx-cascades',
-                                index: 'programaTable',
+                                index: 'programaTable/check',
                                 title: '栏目审核'
                             }
                         ]

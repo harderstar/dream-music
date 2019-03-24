@@ -52,7 +52,7 @@ export default new Router({
                     meta: { title: '标签列表' }
                 },
                 {
-                    path: '/programaTable',
+                    path: '/programaTable/:type',
                     component: resolve => require(['../components/page/programa/programaTable.vue'], resolve),
                     meta: { title: '栏目列表' }
                 },
