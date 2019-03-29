@@ -229,7 +229,7 @@
                 
                 this.$axios.post(updateCom,
                        JSON.stringify(this.form),{headers: {'Content-Type': 'application/json'}}).then((res) => {
-                    console.log(res.data)
+                    // console.log(res.data)
                     this.tableData = res.data;
                 });
                 this.editVisible = false;

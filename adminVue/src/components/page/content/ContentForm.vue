@@ -127,7 +127,7 @@
         created(){
               this.$axios.get(getContent+this.contId).then((res)=>{
                 this.options = res.data
-                console.log(this.options)
+                // console.log(this.options)
              })
            
               

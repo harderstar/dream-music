@@ -46,14 +46,14 @@ export default new Router({
                     meta: { title: '歌手列表' }
                 },
                 {
-                    path: '/tabTable',
-                    component: resolve => require(['../components/page/music/tabTable.vue'], resolve),
+                    path: '/tagTable',
+                    component: resolve => require(['../components/page/music/tagTable.vue'], resolve),
                     meta: { title: '标签列表' }
                 },
                 {
-                    path: '/programaTable/:type',
+                    path: '/programaPublise',
                     component: resolve => require(['../components/page/programa/programaTable.vue'], resolve),
-                    meta: { title: '栏目列表' }
+                    meta: { title: '栏目发布' }
                 },
                 {
                     path: '/commentTable',

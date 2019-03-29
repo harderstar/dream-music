@@ -24,50 +24,41 @@
                     <el-form-item label="下载">
                         <el-input v-model="form.download"></el-input>
                     </el-form-item>
-                     <el-popover
-                        placement="right"
-                        width="400"
-                        trigger="click">
-                        <el-table :data="tagData">
-                             <el-table-column type="selection" width="55" align="center"></el-table-column>
-                            <el-table-column prop="name" label="标签名">
-                            </el-table-column>
-                            <el-table-column prop="isTip" label="搜索提示" width="120">
-                            </el-table-column>  
-                        </el-table>
-                        <div class="pagination">
-                            <el-pagination background @current-change="handleCurrentChange" layout="prev, pager, next" :total="1000">
-                            </el-pagination>
-                        </div>
-                        <el-button slot="reference">标签</el-button>
-                    </el-popover>
-                     <el-form-item label="流行数">
+                    <el-form-item label="标签">
+                        <el-select 
+                            v-model="form.labels" 
+                            filterable 
+                            multiple
+                            value-key="id"
+                            placeholder="请选择标签" 
+                        >
+                            <el-option
+                                v-for="item in tagData"
+                                :key="item.id"
+                                :value="item"
+                                :label="item.name"
+                            ></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="流行数">
                         <el-input v-model="form.popularity"></el-input>
                     </el-form-item>
-                     <el-popover
-                        placement="right"
-                        width="400"
-                        trigger="click">
-                        <el-table :data="singerData">
-                            <el-table-column type="selection" width="55" align="center"></el-table-column>
-                            <el-table-column prop="name" label="歌手名">
-                            </el-table-column>
-                            <el-table-column prop="birthday" label="生日" width="150">
-                            </el-table-column>
-                            <el-table-column prop="sex" label="性别" width="150">
-                            </el-table-column>
-                            <el-table-column prop="hotLevel" label="热度"  width="150">
-                            </el-table-column>
-                            <el-table-column prop="introduction" label="简介"  width="150">
-                            </el-table-column>
-                        </el-table>
-                        <div class="pagination">
-                            <el-pagination background @current-change="handleCurrentChange" layout="prev, pager, next" :total="1000">
-                            </el-pagination>
-                        </div>
-                        <el-button slot="reference">歌手</el-button>
-                    </el-popover>
-
+                    <el-form-item label="歌手">
+                        <el-select 
+                            v-model="form.singers" 
+                            filterable 
+                            multiple 
+                            value-key="id"
+                            placeholder="请选择歌手"
+                        >
+                            <el-option
+                                v-for="item in singerData"
+                                :key="item.id"
+                                :value="item"
+                                :label="item.name"
+                            ></el-option>
+                        </el-select>
+                    </el-form-item>
                     <el-form-item label="歌词">
                         <el-input v-model="form.lyric"></el-input>
                     </el-form-item>
@@ -75,7 +66,8 @@
                         <el-input v-model="form.commit"></el-input>
                     </el-form-item>
                   
-                     <el-upload
+                    <el-form-item label="上传歌曲">
+                        <el-upload
                             ref="upload"
                             :action="upload"
                             name="picture"
@@ -83,9 +75,11 @@
                             :limit="1"
                             :file-list="fileList"
                             :on-success="handleSuccess"
-                            :on-remove="handleRemove">
-                        <i class="el-icon-plus"></i>
-                    </el-upload>
+                            :on-remove="handleRemove"
+                        >
+                            <i class="el-icon-plus"></i>
+                        </el-upload>
+                    </el-form-item>
                     <el-dialog :visible.sync="dialogVisible">
                         <img width="100%" :src="dialogImageUrl" alt="">
                     </el-dialog>
@@ -115,52 +109,45 @@
         components:{
             VueEditor
         },
-        data: function(){
+        data(){
             return {
                 options:[],
-                form: {
-                    title: '',
-                    titleColor: '',
-                    subtitle: '',
-                    digest: '',
-                    stickLevel: '',
-                    issuer: '',
-                    commit: '',
-                    uptime: '',
-                    externalLink: '',
-                    digest: '',
-                    commentImage: '',
-                    detail:'',
-                    music:'',
-                    options: [],
-                },
+                form: {},//表单数据
+                singerData:[],//歌手列表
+                tagData:[],//标签列表
                 label:"value",
                 value:"id",
-                singerData:{},
-                tagData:{},
                 upload:upload,
                 fileList:[],
+                dialogVisible:false,
+                dialogImageUrl:"",
             }
-        },
-        computed: {
-            form(){
-
-            },
-            
         },
         methods: {
             onSubmit() {
-                console.log(this.form);
-                this.$emit("onFormSubmit","aaaaaaa");
-                this.$message.success('提交成功！');
+                // console.log(this.form);
+                this.$emit("onFormSubmit",this.form);
             },
             handleCurrentChange(){
 
-            }
+            },
+            handleSuccess(){
+
+            },
+            handleRemove(){
+
+            },
         },
-        created(){
-             
-              
+        watch:{
+            initialData:{
+                handler(newValue,olaValue){
+                    this.form = newValue[0] || {};
+                    this.singerData = newValue[1] || [];
+                    this.tagData = newValue[2] || [];
+                    this.form.labels = this.form.labels || [];
+                },
+                immediate:true,
+            }
         }
     }
 </script>

@@ -4,7 +4,6 @@
         <div class="container">
             <div class="handle-box">
                 <el-button type="primary" icon="add" class="handle-del mr10" @click="handleAdd">添加</el-button>
-                 
             </div>
             <el-table :data="tableData" border class="table" ref="multipleTable" @selection-change="handleSelectionChange">
                 <el-table-column type="selection" width="55" align="center"></el-table-column>
@@ -97,7 +96,8 @@
                     hotLevel: '',
                     introduction: ''
                 },
-                idx: -1
+                id:0,
+                idx: -1,
             }
         },
         created() {
@@ -130,7 +130,6 @@
                 this.cur_page = val;
                 this.getData();
             },
-            // 获取 easy-mock 的模拟数据
             getData() {
                 this.$axios.get(getSingers,{
                     params:{
@@ -165,9 +164,10 @@
                 this.editVisible = true;
             },
             handleDelete(index, row) {
+                this.idx = index;
                 this.delVisible = true;
                 const item = this.tableData[index];
-                this.idx = item.id;
+                this.id = item.id;
             },
             delAll() {
                 const length = this.multipleSelection.length;
@@ -184,31 +184,30 @@
             },
             // 保存编辑
             saveEdit() {
-                this.$set(this.tableData, this.idx, this.form);
                 this.editVisible = false;
-                 this.$axios.post(updateSinger,
-                       JSON.stringify(this.form),{headers: {'Content-Type': 'application/json'}}).then((res) => {
-                    console.log(res.data)
-                    this.tableData = res.data;
+                this.$axios.post(
+                    updateSinger,
+                    JSON.stringify(this.form),
+                    {headers: {'Content-Type': 'application/json'}}
+                ).then(res => {
+                    // console.log(res.data)
+                    this.$set(this.tableData, this.idx, this.form);
+                    this.$message.success(`编辑成功`);
                 });
-                this.$message.success(`修改第 ${this.idx+1} 行成功`);
             },
             // 确定删除
             deleteRow(){
-                 this.$axios.delete(deleteSinger+this.idx,{
-                         
-                    }).then((res) => {
-                    console.log(res.data)
-                    
+                 this.$axios.delete(deleteSinger+this.idx)
+                 .then((res) => {
+                    // console.log(res.data)
+                    this.tableData.splice(this.idx, 1);
+                    this.$message.success('删除成功');
+                    this.delVisible = false;
                 }); 
-                this.tableData.splice(this.idx, 1);
-                this.$message.success('删除成功');
-                this.delVisible = false;
             },
              handleAdd(){
-                this.form = {
-                    parentId: this.parentId,
-                }
+                this.form = {}
+                this.idx = this.tableData.length;
                 this.editVisible = true;
             },
         }

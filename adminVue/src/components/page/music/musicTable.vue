@@ -4,13 +4,15 @@
         <div class="container">
             <div class="handle-box">
                 <el-button type="primary" icon="add" class="handle-del mr10" @click="handleAdd">添加</el-button>
-                 
             </div>
             <el-table :data="tableData" border class="table" ref="multipleTable" @selection-change="handleSelectionChange">
                 <el-table-column type="selection" width="55" align="center"></el-table-column>
                 <el-table-column prop="name" label="歌曲名"  >
                 </el-table-column>
-                <el-table-column prop="singers" label="歌手" width="120">
+                <el-table-column label="歌手" width="120">
+                    <template slot-scope="scope">
+                        {{ scope.row.singers.map(item=>item.name).toString() }}
+                    </template>
                 </el-table-column>
                 <el-table-column prop="uptime" label="上传时间" width="120">
                 </el-table-column>
@@ -58,6 +60,9 @@
     import musicForm from "@/components/page/music/musicForm.vue";
      import {
         musics,
+        music,
+        getLabels,
+        getSingers,
         deleteMusic,
         updateMusic,
     } from "@/api/api";
@@ -80,7 +85,8 @@
                 delVisible: false,
                 formInitialData:[],
                 id:0,
-                idx: -1
+                idx: -1,
+                form:{},
             }
         },
         created() {
@@ -113,7 +119,6 @@
                 this.cur_page = val;
                 this.getData();
             },
-            // 获取 easy-mock 的模拟数据
             getData() {
                 this.$axios.get(musics,{
                       params:{
@@ -121,7 +126,7 @@
                           pageSize:10
                       }
                 }).then((res) => {
-                    console.log(res.data)
+                    console.log("初始数据： ",res.data)
                     this.tableData = res.data;
                 });
             },
@@ -139,7 +144,7 @@
                         pageSize:10,
                         }
                 }).then(res =>res.data);
-                return Promise.all(p1,p2,p3);
+                return Promise.all([p1,p2,p3]);
             },
             search() {
                 this.is_search = true;
@@ -151,17 +156,18 @@
                 return row.tag === value;
             },
             handleFromSubmit(formData){
-                console.log(formData);
-                this.editVisible = false;
+                this.form = formData;
+                this.saveEdit();
             },
             handleEdit(index, row) {
                 const item = this.tableData[index];
                 this.id = item.id
                 this.idx = index;
                 this.getFormInitialData(this.id).then((res)=>{
+                    console.log(res);
                     this.formInitialData = res;
+                    this.editVisible = true;
                 })
-                this.editVisible = true;
             },
             handleDelete(index, row) {
                 this.delVisible = true;
@@ -184,31 +190,33 @@
             },
             // 保存编辑
             saveEdit() {
-                this.$set(this.tableData, this.idx, this.form);
-                this.editVisible = false;
-                 this.$axios.post(updateMusic,
-                       JSON.stringify(this.form),{headers: {'Content-Type': 'application/json'}}).then((res) => {
+                this.$axios.post(
+                    updateMusic,
+                    JSON.stringify(this.form),
+                    {headers: {'Content-Type': 'application/json'}}
+                ).then((res) => {
                     console.log(res.data)
-                    this.tableData = res.data;
+                    this.editVisible = false;
+                    this.$set(this.tableData, this.idx, this.form);
+                    this.$message.success(`编辑成功`)
+                }).catch(err=>{
+                    this.$message.error(`编辑失败`);
                 });
-                this.$message.success(`修改第 ${this.idx+1} 行成功`);
+                
             },
             // 确定删除
             deleteRow(){
-                 this.$axios.delete(deleteMusic+this.idx,{
-                         
-                    }).then((res) => {
-                    console.log(res.data)
-                    
+                this.$axios.delete(deleteMusic+this.idx)
+                .then((res) => {
+                    // console.log(res.data)
                 }); 
                 this.tableData.splice(this.idx, 1);
                 this.$message.success('删除成功');
                 this.delVisible = false;
             },
              handleAdd(){
-                this.form = {
-                    parentId: this.parentId,
-                }
+                this.formInitialData = [];
+                this.idx = this.tableData.length;
                 this.editVisible = true;
             },
         }
