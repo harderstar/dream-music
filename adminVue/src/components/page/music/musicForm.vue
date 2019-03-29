@@ -8,21 +8,21 @@
         </div>
         <div class="container">
             <div class="form-box">
-                <el-form ref="form" :model="music" label-width="200px">
+                <el-form ref="form" :model="form" label-width="200px">
                      <el-form-item label="歌名">
-                        <el-input v-model="musicData.name"></el-input>
+                        <el-input v-model="form.name"></el-input>
                     </el-form-item>
                     <el-form-item label="专辑">
-                        <el-input v-model="musicData.album"></el-input>
+                        <el-input v-model="form.album"></el-input>
                     </el-form-item>
                     <el-form-item label="播放路径">
-                        <el-input v-model="musicData.auditionUrl"></el-input>
+                        <el-input v-model="form.auditionUrl"></el-input>
                     </el-form-item>
                     <el-form-item label="like">
-                        <el-input v-model="musicData.like"></el-input>
+                        <el-input v-model="form.like"></el-input>
                     </el-form-item>
                     <el-form-item label="下载">
-                        <el-input v-model="musicData.download"></el-input>
+                        <el-input v-model="form.download"></el-input>
                     </el-form-item>
                      <el-popover
                         placement="right"
@@ -42,7 +42,7 @@
                         <el-button slot="reference">标签</el-button>
                     </el-popover>
                      <el-form-item label="流行数">
-                        <el-input v-model="musicData.popularity"></el-input>
+                        <el-input v-model="form.popularity"></el-input>
                     </el-form-item>
                      <el-popover
                         placement="right"
@@ -69,10 +69,10 @@
                     </el-popover>
 
                     <el-form-item label="歌词">
-                        <el-input v-model="musicData.lyric"></el-input>
+                        <el-input v-model="form.lyric"></el-input>
                     </el-form-item>
                     <el-form-item label="审核">
-                        <el-input v-model="musicData.commit"></el-input>
+                        <el-input v-model="form.commit"></el-input>
                     </el-form-item>
                   
                      <el-upload
@@ -82,9 +82,6 @@
                             list-type="picture-card"
                             :limit="1"
                             :file-list="fileList"
-                            :on-exceed="onExceed"
-                            :before-upload="beforeUpload"
-                            :on-preview="handlePreview"
                             :on-success="handleSuccess"
                             :on-remove="handleRemove">
                         <i class="el-icon-plus"></i>
@@ -92,18 +89,7 @@
                     <el-dialog :visible.sync="dialogVisible">
                         <img width="100%" :src="dialogImageUrl" alt="">
                     </el-dialog>
-                    <el-popover
-                        placement="right"
-                        width="400"
-                        trigger="click">
-                        <el-table :data="musicData">
-                            <el-table-column width="150" property="name" label="歌名"></el-table-column>
-                            <el-table-column width="100" property="singer" label="歌手"></el-table-column>
-                        </el-table>
-                    </el-popover>
-                    <vue-editor>
-                    </vue-editor>
-                    
+                    <vue-editor> </vue-editor>
                     <el-form-item>
                         <el-button type="primary" @click="onSubmit">表单提交</el-button>
                         <el-button>取消</el-button>
@@ -124,8 +110,8 @@
     } from "@/api/api";
     import VueEditor from "@/components/page/VueEditor.vue";
     export default {
-        props:["musicId"],
-        name: 'baseform',
+        props:["initialData"],
+        name: 'Musicform',
         components:{
             VueEditor
         },
@@ -150,40 +136,30 @@
                 },
                 label:"value",
                 value:"id",
-                musicData:{},
                 singerData:{},
                 tagData:{},
-                upload:upload
+                upload:upload,
+                fileList:[],
             }
+        },
+        computed: {
+            form(){
+
+            },
+            
         },
         methods: {
             onSubmit() {
+                console.log(this.form);
+                this.$emit("onFormSubmit","aaaaaaa");
                 this.$message.success('提交成功！');
+            },
+            handleCurrentChange(){
+
             }
         },
         created(){
-             this.$axios.get(music+this.musicId).then((res)=>{
-                this.options = res.data
-                console.log(this.options)
-             })
-            this.$axios.get(getSingers,{
-                params:{
-                    pageSize:10,
-                    currenPage:1,
-                }
-            }).then((res) => {
-                console.log(res.data)
-                this.singerData = res.data;
-            });
-            this.$axios.get(getLabels,{
-                    params:{
-                    currePage:1,
-                    pageSize:10,
-                    }
-            }).then((res) => {
-                console.log(res.data)
-                this.tagData = res.data;
-            });
+             
               
         }
     }

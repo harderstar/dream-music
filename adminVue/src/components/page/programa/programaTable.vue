@@ -113,6 +113,7 @@
                     stationId:'',
                     isParent:''
                 },
+                id:-1,
                 idx: -1,
                 treeData: [],
                 defaultProps: {
@@ -199,11 +200,10 @@
                 this.editVisible = true;
             },
             handleDelete(index, row) {
-                console.log("==============")
-                
                 this.delVisible = true;
                 const item = this.tableData[index];
-                this.idx = item.id;
+                this.idx = index;
+                this.id = item.id;
             },
             delAll() {
                 const length = this.multipleSelection.length;
@@ -221,25 +221,26 @@
             // 保存编辑
             saveEdit() {
                 
-                this.$axios.post(updatePro,
-                       JSON.stringify(this.form),{headers: {'Content-Type': 'application/json'}}).then((res) => {
+                this.$axios.post(updatePro,JSON.stringify(this.form),{headers: {'Content-Type': 'application/json'}})
+                .then((res) => {
                     console.log(res.data)
-                    this.tableData = res.data;
                 });
+                this.tableData[this.idx] = this.form;
                 this.editVisible = false;
               
             },
             // 确定删除
             deleteRow(){
-                 this.$axios.delete(deletePro+this.idx,{
-                         
-                    }).then((res) => {
-                    console.log(res.data)
-                    
+                this.$axios.delete(deletePro+this.idx)
+                .then((res) => {
+                    // console.log(res.data);
+                    this.tableData.splice(this.idx, 1);
+                    this.$message.success('删除成功');
+                    this.delVisible = false;
+                })
+                .catch((err)=>{
+                    console.log(err);
                 }); 
-                this.tableData.splice(this.idx, 1);
-                this.$message.success('删除成功');
-                this.delVisible = false;
             },
             
         }

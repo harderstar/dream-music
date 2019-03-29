@@ -39,9 +39,8 @@
             width="85%"
             id=""
             :close-on-click-modal="false"
-            :before-close="handleClose">
-            <music-form v-if="editVisible"  :musicId="idx" @changeValue="changeValue">
-            </music-form>
+        >
+            <music-form :initialData="formInitialData" @onFormSubmit="handleFromSubmit"></music-form>
         </el-dialog>
 
         <!-- 删除提示框 -->
@@ -79,14 +78,8 @@
                 is_search: false,
                 editVisible: false,
                 delVisible: false,
-                form: {
-                    id:'',
-                    name:'',
-                    birthday: '',
-                    sex:'',
-                    hotLevel: '',
-                    introduction: ''
-                },
+                formInitialData:[],
+                id:0,
                 idx: -1
             }
         },
@@ -132,6 +125,22 @@
                     this.tableData = res.data;
                 });
             },
+            getFormInitialData(id){
+                var p1 = this.$axios.get(music+id).then(res=>res.data);
+                var p2 = this.$axios.get(getSingers,{
+                    params:{
+                        pageSize:10,
+                        currenPage:1,
+                    }
+                }).then(res =>res.data);
+                var p3= this.$axios.get(getLabels,{
+                        params:{
+                        currePage:1,
+                        pageSize:10,
+                        }
+                }).then(res =>res.data);
+                return Promise.all(p1,p2,p3);
+            },
             search() {
                 this.is_search = true;
             },
@@ -141,16 +150,24 @@
             filterTag(value, row) {
                 return row.tag === value;
             },
+            handleFromSubmit(formData){
+                console.log(formData);
+                this.editVisible = false;
+            },
             handleEdit(index, row) {
-                
                 const item = this.tableData[index];
-                this.idx = item.id;
+                this.id = item.id
+                this.idx = index;
+                this.getFormInitialData(this.id).then((res)=>{
+                    this.formInitialData = res;
+                })
                 this.editVisible = true;
             },
             handleDelete(index, row) {
                 this.delVisible = true;
                 const item = this.tableData[index];
-                this.idx = item.id;
+                this.id = item.id
+                this.idx = index;
             },
             delAll() {
                 const length = this.multipleSelection.length;
