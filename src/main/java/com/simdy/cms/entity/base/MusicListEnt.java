@@ -1,9 +1,10 @@
 package com.simdy.cms.entity.base;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class MusicListEnt {
+public class MusicListEnt implements Serializable {
 
     private Integer id;
     private String name;

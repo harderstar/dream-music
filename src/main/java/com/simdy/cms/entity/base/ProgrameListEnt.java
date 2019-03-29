@@ -1,6 +1,8 @@
 package com.simdy.cms.entity.base;
 
-public class ProgrameListEnt {
+import java.io.Serializable;
+
+public class ProgrameListEnt implements Serializable {
 
     private Integer id;
     private String value;

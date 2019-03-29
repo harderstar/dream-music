@@ -1,8 +1,9 @@
 package com.simdy.cms.entity.tree;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class TreeEnt<T> {
+public class TreeEnt<T> implements Serializable {
 
     private String value;
     private List<TreeEnt<T>> children;

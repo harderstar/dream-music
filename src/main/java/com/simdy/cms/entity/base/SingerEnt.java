@@ -1,8 +1,9 @@
 package com.simdy.cms.entity.base;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class SingerEnt {
+public class SingerEnt implements Serializable {
 
     private Integer id;
     private String name;

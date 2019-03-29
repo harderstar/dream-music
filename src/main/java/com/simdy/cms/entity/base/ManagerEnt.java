@@ -3,10 +3,11 @@ package com.simdy.cms.entity.base;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 
-public class ManagerEnt implements UserDetails {
+public class ManagerEnt implements UserDetails , Serializable {
 
     private Integer id;
     private String username;

@@ -1,6 +1,8 @@
 package com.simdy.cms.entity;
 
-public class BaseUser {
+import java.io.Serializable;
+
+public class BaseUser implements Serializable {
 
     private Integer id;
     private String name;

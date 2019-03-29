@@ -1,6 +1,8 @@
 package com.simdy.cms.entity.base;
 
-public class LabelAddEnt {
+import java.io.Serializable;
+
+public class LabelAddEnt implements Serializable {
 
     private Integer id;
     private String name;

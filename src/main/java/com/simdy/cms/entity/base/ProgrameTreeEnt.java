@@ -1,6 +1,8 @@
 package com.simdy.cms.entity.base;
 
-public class ProgrameTreeEnt extends TreeTypeEnt{
+import java.io.Serializable;
+
+public class ProgrameTreeEnt extends TreeTypeEnt implements Serializable {
 
     public ProgrameTreeEnt(Integer isParent,Integer id, String value, Integer parentId) {
         setId(id);

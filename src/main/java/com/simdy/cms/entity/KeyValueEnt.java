@@ -1,6 +1,8 @@
 package com.simdy.cms.entity;
 
-public class KeyValueEnt {
+import java.io.Serializable;
+
+public class KeyValueEnt implements Serializable {
 
     private Integer entId;
     private String entValue;

@@ -1,5 +1,7 @@
 package com.simdy.cms.entity.base;
 
+import java.io.Serializable;
+
 /**
  * @ClassName LoginEnt
  * @Description TODO
@@ -7,7 +9,7 @@ package com.simdy.cms.entity.base;
  * @Date 2019/3/24 14:14
  * @Version 1.0
  **/
-public class LoginEnt {
+public class LoginEnt implements Serializable {
 
     private String name;
     private String password;

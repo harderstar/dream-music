@@ -1,6 +1,8 @@
 package com.simdy.cms.entity.base;
 
-public class LabelListEnt {
+import java.io.Serializable;
+
+public class LabelListEnt implements Serializable {
 
     private Integer id;
     private String name;

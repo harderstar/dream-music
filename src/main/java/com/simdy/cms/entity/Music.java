@@ -1,6 +1,8 @@
 package com.simdy.cms.entity;
 
-public class Music {
+import java.io.Serializable;
+
+public class Music implements Serializable {
 
     private Integer id;
     private String name;

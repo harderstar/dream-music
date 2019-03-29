@@ -1,6 +1,8 @@
 package com.simdy.cms.entity.base;
 
-public class VipEnt {
+import java.io.Serializable;
+
+public class VipEnt implements Serializable {
 
     private Integer id;
     private String name;

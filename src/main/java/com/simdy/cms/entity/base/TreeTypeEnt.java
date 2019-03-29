@@ -1,6 +1,8 @@
 package com.simdy.cms.entity.base;
 
-public class TreeTypeEnt {
+import java.io.Serializable;
+
+public class TreeTypeEnt implements Serializable {
 
     private Integer id;
     private String value;

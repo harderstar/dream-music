@@ -9,6 +9,9 @@ import com.simdy.cms.entity.base.ProgrameTreeEnt;
 import com.simdy.cms.mapper.CommentMapper;
 import com.simdy.cms.mapper.ProgrameMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -32,6 +35,7 @@ public class CommentService {
      * @param pageSize
      * @return
      */
+
     public List<CommentListEnt> getCommentsByProId(Integer proId,Integer curPage,Integer pageSize){
         PageHelper.startPage(curPage,pageSize);
         return commentMapper.queryCommentsByProID(proId);
@@ -51,6 +55,7 @@ public class CommentService {
      * @param commentAddEnt
      * @return
      */
+    @CachePut( key="#commentAddEnt.id")
     public Boolean updateComment(CommentAddEnt commentAddEnt){
         System.out.println(commentAddEnt);
         if(commentAddEnt.getId() == null){
@@ -73,6 +78,7 @@ public class CommentService {
      * @param id
      * @return
      */
+    @CacheEvict( key = "#id")
     public Boolean deleteConmentById(Integer id){
         if(commentMapper.deleteCommentById(id) == 0)
             return false;
@@ -85,6 +91,7 @@ public class CommentService {
      * @param modelLocation
      * @return
      */
+    @Cacheable(cacheNames = "contents")
     public Map<String,List<CommentListEnt>> queryCommentsByProModelLocation(String modelLocation){
         ProgrameListEnt programe = commentMapper.queryProIdBymodelLocation(modelLocation);
         List<ProgrameTreeEnt> treeEnts = programeMapper.quertTrees();
@@ -93,10 +100,9 @@ public class CommentService {
 
         Map<String,List<CommentListEnt>> map = new HashMap<>();
         for(Integer cid :list){
-            List<CommentListEnt> commentListEnts = commentMapper.queryCommentsByProID(cid);
+            List<CommentListEnt> commentListEnts = getCommentsByProId(cid,1,5);
             map.put(programeMapper.queryProgrameById(cid).getValue(),commentListEnts);
         }
-
         return map;
     }
 }

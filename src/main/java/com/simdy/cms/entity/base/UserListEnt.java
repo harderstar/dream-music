@@ -2,9 +2,10 @@ package com.simdy.cms.entity.base;
 
 import com.simdy.cms.entity.KeyValueEnt;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class UserListEnt {
+public class UserListEnt implements Serializable {
     private Integer id;
     private String name;
     private KeyValueEnt vip;

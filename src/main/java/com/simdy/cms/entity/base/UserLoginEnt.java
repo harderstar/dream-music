@@ -1,6 +1,8 @@
 package com.simdy.cms.entity.base;
 
-public class UserLoginEnt {
+import java.io.Serializable;
+
+public class UserLoginEnt implements Serializable {
 
     private String username;
     private String password;

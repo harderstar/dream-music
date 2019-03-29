@@ -1,8 +1,9 @@
 package com.simdy.cms.entity.base;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class CommentAddEnt {
+public class CommentAddEnt implements Serializable {
 
     private Integer id;
     private Integer programe;

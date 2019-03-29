@@ -1,5 +1,6 @@
 package com.simdy.cms.entity.base;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -9,7 +10,7 @@ import java.util.Date;
  * @Date 2019/3/24 14:09
  * @Version 1.0
  **/
-public class RegisterEnt {
+public class RegisterEnt implements Serializable {
 
     private Integer id;
     private String name;
