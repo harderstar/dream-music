@@ -5,6 +5,8 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/dream-music-db?useUnicode=true&characterEncoding=UTF-8
     type: com.alibaba.druid.pool.DruidDataSource
+  redis:
+    host: 106.13.80.119
     #   数据源其他配置
     initialSize: 5
     minIdle: 5

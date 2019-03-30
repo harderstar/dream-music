@@ -1,22 +1,32 @@
 package com.simdy.cms.interceptor;
 
+import com.simdy.cms.entity.base.UserListEnt;
+import com.simdy.cms.mapper.UserMapper;
+import com.simdy.cms.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class LoginHandlerInterceptor implements HandlerInterceptor {
+public class DownloadInterceptor implements HandlerInterceptor {
+
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
-        Object user = request.getSession().getAttribute("user");
+        UserListEnt user = (UserListEnt)request.getSession().getAttribute("user");
+        System.out.println(user);
         if(user == null){
             //未登陆，返回登陆页面
-            request.setAttribute("msg","没有权限请先登陆");
-            response.sendRedirect("http://localhost:8080/login");  //未登录自动跳转界面
+            response.setStatus(400);
             return false;
-        }else{
+        }else if(user.getDownloadSize()<=0){
             //已登陆，放行请求
+            response.setStatus(400);
+            return false;
+        }else {
+
             return true;
         }
     }

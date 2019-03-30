@@ -21,13 +21,24 @@ public interface CommentMapper {
     @Select("select * from comment where id = #{id}")
     public CommentAddEnt queryCommentById(Integer id);
 
-    @Delete("")
+    @Delete("delete from comment where id = #{id}")
     public Integer deleteCommentById(Integer id);
 
-    @Insert("")
+    @Insert("INSERT INTO `comment` (`programeId`," +
+            "`title`,`external_link`,`digest`,`issuer`,`uptime`,`stick_level`,`type`,`comment_image`,`subtitle`," +
+            " `detail`, `title_color`, `click_num`,  `commit`) " +
+            "VALUES(#{programeId},#{title},#{externalLink},#{digest}," +
+            "#{issuer},#{uptime},#{stickLevel},#{type},#{commentImage}," +
+            "#{subtitle},#{detail},#{titleColor},#{clickNum},#{commit})")
     public Integer insertComment(CommentAddEnt commentAddEnt);
 
-    @Update("")
+    @Update("UPDATE  `dream-music-db`.`comment` SET " +
+            "`programeId` = #{programeId}, `title` = #{title}, " +
+            "`external_link` = #{externalLink}, `digest` = #{digest}, " +
+            "`issuer` = #{issuer}, `uptime` = #{uptime},`stick_level` = #{stickLevel},`type` = #{type}, " +
+            "`comment_image` = #{commentImage},`subtitle` = #{subtitle}," +
+            "`detail` = #{detail},`title_color` = #{titleColor}," +
+            "`click_num` = #{clickNum},`commit` = #{commit} WHERE `id` = #{id} ;")
     public Integer updateComment(CommentAddEnt commentAddEnt);
 
     @Select("SELECT * from programe where model_location = #{modelLocation}")

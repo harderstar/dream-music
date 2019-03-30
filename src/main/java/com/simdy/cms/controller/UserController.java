@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.github.pagehelper.PageInfo;
 import com.simdy.cms.Static.ResponseMessage;
 import com.simdy.cms.entity.Result;
+import com.simdy.cms.entity.base.LoginEnt;
 import com.simdy.cms.entity.base.UserListEnt;
 import com.simdy.cms.entity.base.UserViewEnt;
 import com.simdy.cms.entity.base.VipEnt;
@@ -80,6 +81,22 @@ public class UserController {
         ResponseMessage.DEAL_CROSS_DOMAIN(response,request);
         List<UserViewEnt> users = userService.getUsers(page, pageSize);
         return users;
+
+    }
+
+    @PostMapping("/userLogin")
+    public void login(@RequestParam("username") String username,
+                      @RequestParam("password") String password,
+                       HttpServletResponse response,HttpServletRequest request){
+        if(username.equals("admin")&&password.equals("password")){
+            LoginEnt login = new LoginEnt();
+            login.setName("admin");
+            login.setPassword("password");
+            request.getSession().setAttribute("user",login);
+            response.setStatus(200);
+        }else {
+            response.setStatus(403);
+        }
 
     }
 

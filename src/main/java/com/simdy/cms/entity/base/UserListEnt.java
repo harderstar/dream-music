@@ -8,28 +8,33 @@ import java.util.Date;
 public class UserListEnt implements Serializable {
     private Integer id;
     private String name;
+    private String password;
     private KeyValueEnt vip;
     private Date last_login_time;
     private String phonenumber;
-    private String downloadSize;
+    private Integer downloadSize;
 
     public UserListEnt() {
     }
 
-    public UserListEnt(Integer id, String name, KeyValueEnt vip, Date last_login_time, String phonenumber, String downloadSize) {
-        this.id = id;
+    public UserListEnt(String name, String password) {
         this.name = name;
-        this.vip = vip;
-        this.last_login_time = last_login_time;
-        this.phonenumber = phonenumber;
-        this.downloadSize = downloadSize;
+        this.password = password;
     }
 
-    public String getDownloadSize() {
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Integer getDownloadSize() {
         return downloadSize;
     }
 
-    public void setDownloadSize(String downloadSize) {
+    public void setDownloadSize(Integer downloadSize) {
         this.downloadSize = downloadSize;
     }
 

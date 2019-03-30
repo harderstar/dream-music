@@ -62,9 +62,7 @@ public class SingerService {
         }
     }
 
-    public List<MusicListEnt> queryMusicsBySinger(SingerEnt singer){
-        return musicMapper.queryMusicsBySingerId(singer.getId());
-    }
+
 
 }
 

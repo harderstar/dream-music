@@ -32,11 +32,12 @@ public class UserService {
 
     /**
      * 用户登录
-     * @param userListEnt
+     * @param username
+     * @param password
      * @return
      */
-    public Boolean userLogin(UserListEnt userListEnt){
-        return false;
+    public UserListEnt userLogin(String username,String password){
+        return userMapper.checkUser(new UserListEnt(username,password));
     }
 
     /**
@@ -91,6 +92,14 @@ public class UserService {
         return findListMenus;
     }
 
-
+    /**
+     * 下载歌曲下载数减一
+     * @param id
+     * @return
+     */
+    public boolean subDownLoadSize(Integer id){
+        userMapper.subDownLoadSize(id);
+        return true;
+    };
 
 }

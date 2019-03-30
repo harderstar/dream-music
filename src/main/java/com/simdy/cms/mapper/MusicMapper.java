@@ -54,13 +54,15 @@ public interface MusicMapper {
     @Delete("delete from music where id=#{id}")
     public Integer deleteMusic(Integer id);
 
-//    @Delete("delete from music where id=(select music.=labelId)")
-    public Integer deleteMusicsByLabelId(Integer labelId);
 
-    @Delete("delete from music where singer_id=#{singerId}")
-    public Integer deleteMusicsBySingerId(Integer singerId);
 
-//    @Update("update music set where music.id=#{id}")
+    @Update("UPDATE `music` SET  `id` = 'id', `name` = 'name'," +
+            " `audition_url` = #{auditionUrl}, `lyric` = #{lyric}, `photo` = #{photo}, " +
+            "`popularity` = #{popularity}, `size` = #{size}, `like` = #{like}, " +
+            "`download_num` = #{downloadNum}, `collect` = #{collect},  " +
+            "`power` = #{power}, `composer` = #{composer}," +
+            "`download_url` = #{downloadUrl}, `dance_template` = #{danceTemplate}, `uptime` = #{uptime}," +
+            " `commit` = #{commit},`recommend` = #{recommend} WHERE `id` = #{id} ;")
     public Integer updateMusic(MusicAddEnt musicAddEnt);
 
 
@@ -70,8 +72,6 @@ public interface MusicMapper {
     @Select("select * from label_and_music ,label where label.id = label_and_music.label_id and label_and_music.music_id = #{id}")
     public List<LabelListEnt> queryLabelByMusicId(Integer id);
 
-    @Select("")
-    public List<MusicListEnt> queryMusicsBySingerId(Integer id);
 
     @Delete("delete from label_and_music where label_id = #{id}")
     public Integer deleteMusicAndLabelByLabelId(Integer id);
