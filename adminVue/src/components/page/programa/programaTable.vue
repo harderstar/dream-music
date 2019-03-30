@@ -4,11 +4,9 @@
             style="width:250px"
             :data="treeData" 
             :props="defaultProps"
-         
             @node-click="handleNodeClick">
         </el-tree>
         <div class="table">
-            
             <div class="container">
                 <div class="handle-box">
                     <el-button type="primary" icon="add" class="handle-del mr10"  @click="handleAdd()" >栏目添加</el-button>
@@ -144,7 +142,7 @@
                             id:0
                         }
                 }).then((res) => {
-                    console.log(res.data);
+                    // console.log(res.data);
                     this.tableData = res.data;
                 });
                 this.$axios.get(getTree).then((res)=>{
@@ -166,16 +164,14 @@
                             id:data.id
                         }
                     }).then((res) => {
-                    console.log(res.data)
+                    // console.log(res.data)
                     this.tableData = res.data;
                     this.parentId = data.id;
                 });
-                
             },
             handleAdd(){
-                this.form = {
-                    parentId: this.parentId,
-                }
+                this.form = {};
+                this.idx = this.tableData.length;
                 this.editVisible = true;
             },
             filterTag(value, row) {
@@ -220,18 +216,21 @@
             },
             // 保存编辑
             saveEdit() {
-                
-                this.$axios.post(updatePro,JSON.stringify(this.form),{headers: {'Content-Type': 'application/json'}})
+                this.$axios.post(
+                    updatePro,JSON.stringify(this.form),
+                    {headers: {'Content-Type': 'application/json'}})
                 .then((res) => {
-                    console.log(res.data)
+                    // console.log(res.data)
+                    this.$set(this.tableData,this.idx,this.form)
+                    this.$message.success("编辑成功");
+                    this.editVisible = false;
+                }).catch(err=>{
+                    this.$message.error("编辑失败");
                 });
-                this.tableData[this.idx] = this.form;
-                this.editVisible = false;
-              
             },
             // 确定删除
             deleteRow(){
-                this.$axios.delete(deletePro+this.idx)
+                this.$axios.delete(deletePro+this.id)
                 .then((res) => {
                     // console.log(res.data);
                     this.tableData.splice(this.idx, 1);
@@ -239,7 +238,7 @@
                     this.delVisible = false;
                 })
                 .catch((err)=>{
-                    console.log(err);
+                    this.$message.error("删除失败");
                 }); 
             },
             
