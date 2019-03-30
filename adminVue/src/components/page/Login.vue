@@ -23,6 +23,9 @@
 </template>
 
 <script>
+    import {
+        userLogin
+    } from "@/api/api";
     export default {
         data: function(){
             return {
@@ -42,9 +45,19 @@
         },
         methods: {
             submitForm(formName) {
+                
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         localStorage.setItem('ms_username',this.ruleForm.username);
+                        this.$axios.post(userLogin,
+                           {
+                                
+                                   username:this.ruleForm.username,
+                                   password:this.ruleForm.password
+                               
+                           }).then((res) => {
+                                console.log(res.data)
+                        });
                         this.$router.push('/');
                     } else {
                         console.log('error submit!!');

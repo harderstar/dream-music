@@ -60,7 +60,10 @@
         musics,
         deleteMusic,
         updateMusic,
-    } from "@/api/api";
+         music,
+         getSingers,
+         getLabels
+     } from "@/api/api";
     export default {
         name: 'basetable',
         components:{
