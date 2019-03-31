@@ -4,14 +4,12 @@
             style="width:250px" 
             :data="treeData" 
             :props="defaultProps"
-            
-            @node-click="handleNodeClick"></el-tree>
+            @node-click="handleNodeClick">
+         </el-tree>
         <div class="table">
-            
             <div class="container">
                 <div class="handle-box">
                     <el-button type="primary" icon="add" class="handle-del mr10"  @click="handleAdd()" >内容添加</el-button>
-
                 </div>
                 <el-table :data="tableData" border class="table" ref="multipleTable" @selection-change="handleSelectionChange">
                     <el-table-column type="selection" width="55" align="center"></el-table-column>
@@ -26,7 +24,6 @@
                     </el-table-column>
                     <el-table-column prop="issuer" label="发布者"  width="100">
                     </el-table-column>
-                    
                     <el-table-column prop="commit" label="状态" width="120" >
                     </el-table-column>
                     <el-table-column label="操作" width="180" align="center">
@@ -47,9 +44,8 @@
                 :visible.sync="editVisible" 
                 width="85%"
                 id=""
-                :close-on-click-modal="false"
-                :before-close="handleClose">
-                <content-form v-if="editVisible" :proId="proId" :contId="contId" @changeValue="changeValue">
+                :close-on-click-modal="false">
+                <content-form :visible.sync="editVisible" :initialData="formInitialData" @onFormSubmit="handleFormSubmit">
                 </content-form>
             </el-dialog>
 
@@ -80,7 +76,6 @@
         },
         data() {
             return {
-                url: './vuetable.json',
                 tableData: [],
                 cur_page: 1,
                 multipleSelection: [],
@@ -90,59 +85,39 @@
                 is_search: false,
                 editVisible: false,
                 delVisible: false,
-                parentId: '',
+                programaId: null,//当前栏目的id
+                programaName:"",//当前栏目的名字
                 proId:0,
                 contId:0,
-                form: {
-                    id:'',
-                    value:'',
-                    modelLocation: '',
-                    order:'',
-                    isShow: '',
-                    parentId: '',
-                    model:'',
-                    count:'',
-                    type:'',
-                    stationId:'',
-                    isParent:''
-                },
+                form: {},
+                id:0,
                 idx: -1,
                 treeData: [],
                 defaultProps: {
-                children: 'children',
-                label: 'value'
-                }
+                    children: 'children',
+                    label: 'value'
+                },
+                formInitialData:[],
             }
         },
         created() {
-            this.parentId = 0;
             this.getData();
-           // this.parentId = 0;
          },
-     
         methods: {
             // 分页导航
             handleCurrentChange(val) {
                 this.cur_page = val;
                 this.getData();
             },
-            changeValue(data){
-                
-            },
-            // 获取 easy-mock 的模拟数据
             getData() {
-                // 开发环境使用 easy-mock 数据，正式环境使用 json 文件
-                if (process.env.NODE_ENV === 'development') {
-                    this.url = '/ms/table/list';
-                };
                 this.$axios.get(getContents,{
                       params:{
-                        id : this.parentId,
+                        id : this.id,
                         pageSize : 10,
                         curPage : 1,
                       },
                 }).then((res) => {
-                    console.log(res.data)
+                    //console.log(res.data)
                     this.tableData = res.data;
                 });
                 this.$axios.get(getTree).then((res)=>{
@@ -151,55 +126,48 @@
                 })
 
             },
-            search() {
-                this.is_search = true;
-            },
-            formatter(row, column) {
-                return row.address;
-            },
-             handleNodeClick(data) {
-                this.parentId = data.id;
+            handleNodeClick(data) {
+                //console.log("左菜单栏：",data);
+                this.programaId = data.id;
+                this.programaName = data.value;
                 this.$axios.get(getContents,{
                         params:{
-                           id : this.parentId,
+                           id : this.programaId,
                            pageSize : 10,
                            curPage : 1,
                          },
                 }).then((res) => {
-                    console.log(res.data)
+                    //console.log("tableData: ",res.data);
                     this.tableData = res.data;
                 });
                 
             },
             handleAdd(){
-                this.form = {
-                    parentId: this.parentId,
-                }
+                this.formInitialData = {
+                    programaId:this.programaId,
+                    programaName:this.programaName,
+                };
+                this.idx = this.tableData.length;
                 this.editVisible = true;
             },
-            filterTag(value, row) {
-                return row.tag === value;
+            handleFormSubmit(formData){
+                this.form = formData;
+                this.saveEdit();
             },
             handleEdit(index, row) {
-                this.idx = index;
                 const item = this.tableData[index];
-                this.form = {
-                    id:item.id,
-                    value: item.value,
-                    modelLocation: item.modelLocation,
-                    order: item.order,
-                    isShow: item.isShow,
-                    parentId: item.parentId,
-                    model: item.model,
-                    stationId: item.stationId,
-                    count: item.count,
-                    type: item.type,
-                    isParent: item.isParent,
-                }
+                this.id = item.id
+                this.idx = index;
+                console.log("item: ",item);
+                // this.getFormInitialData(this.id).then((res)=>{
+                //     console.log(res);
+                //     this.formInitialData = res;
+                //     this.editVisible = true;
+                // })
+                this.formInitialData = item;
                 this.editVisible = true;
             },
             handleDelete(index, row) {
-                
                 this.idx = index;
                 this.delVisible = true;
                 this.$axios.post(deleteContent,{
@@ -207,8 +175,7 @@
                             id:data.id
                         }
                     }).then((res) => {
-                    console.log(res.data)
-                    
+                    console.log(res.data);
                 });
             },
             delAll() {
@@ -226,14 +193,19 @@
             },
             // 保存编辑
             saveEdit() {
-                
-                this.$axios.post(updateCom,
-                       JSON.stringify(this.form),{headers: {'Content-Type': 'application/json'}}).then((res) => {
-                    // console.log(res.data)
-                    this.tableData = res.data;
+                this.$axios.post(
+                    updateCom,
+                    JSON.stringify(this.form),
+                    {headers: {'Content-Type': 'application/json'}})
+                .then((res) => {
+                    console.log("保存编辑: ",res.data);
+                    this.editVisible = false;
+                    this.$set(this.tableData, this.idx, this.form);
+                    this.$message.success(`编辑成功`);
+                    this.editVisible = true;
+                }).catch(err=>{
+                    this.$message.error(`编辑失败`);
                 });
-                this.editVisible = false;
-              
             },
             // 确定删除
             deleteRow(){
@@ -241,7 +213,7 @@
                 this.$message.success('删除成功');
                 this.delVisible = false;
             },
-            
+
         }
     }
 

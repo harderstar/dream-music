@@ -42,7 +42,7 @@
             id=""
             :close-on-click-modal="false"
         >
-            <music-form :initialData="formInitialData" @onFormSubmit="handleFromSubmit"></music-form>
+            <music-form :initialData="formInitialData" @onFormSubmit="handleFormSubmit"></music-form>
         </el-dialog>
 
         <!-- 删除提示框 -->
@@ -132,30 +132,27 @@
             },
             getFormInitialData(id){
                 var p1 = this.$axios.get(music+id).then(res=>res.data);
-                var p2 = this.$axios.get(getSingers,{
-                    params:{
-                        pageSize:10,
-                        currenPage:1,
-                    }
-                }).then(res =>res.data);
-                var p3= this.$axios.get(getLabels,{
-                        params:{
-                        currePage:1,
-                        pageSize:10,
-                        }
-                }).then(res =>res.data);
+                var p2 = this.getSingers();
+                var p3= this.getTagsData();
                 return Promise.all([p1,p2,p3]);
             },
-            search() {
-                this.is_search = true;
+            getSingers(){
+                return this.$axios.get(getSingers,{
+                            params:{
+                                pageSize:10,
+                                currenPage:1,
+                            }
+                        }).then(res =>res.data);
             },
-            formatter(row, column) {
-                return row.address;
+            getTagsData(){
+                return this.$axios.get(getLabels,{
+                            params:{
+                            currePage:1,
+                            pageSize:10,
+                            }
+                        }).then(res =>res.data);
             },
-            filterTag(value, row) {
-                return row.tag === value;
-            },
-            handleFromSubmit(formData){
+            handleFormSubmit(formData){
                 this.form = formData;
                 this.saveEdit();
             },
@@ -195,7 +192,7 @@
                     JSON.stringify(this.form),
                     {headers: {'Content-Type': 'application/json'}}
                 ).then((res) => {
-                    console.log(res.data)
+                    // console.log(res.data)
                     this.editVisible = false;
                     this.$set(this.tableData, this.idx, this.form);
                     this.$message.success(`编辑成功`)
@@ -214,10 +211,15 @@
                 this.$message.success('删除成功');
                 this.delVisible = false;
             },
-             handleAdd(){
-                this.formInitialData = [];
-                this.idx = this.tableData.length;
-                this.editVisible = true;
+            handleAdd(){
+                Promise.all([
+                    this.getSingers(),
+                    this.getTagsData(),
+                ]).then(res => {
+                    this.formInitialData = [null,res[0],res[1]];
+                    this.idx = this.tableData.length;
+                    this.editVisible = true;
+                })
             },
         }
     }
