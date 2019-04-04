@@ -65,9 +65,6 @@
         getSingers,
         deleteMusic,
         updateMusic,
-         music,
-         getSingers,
-         getLabels
      } from "@/api/api";
     export default {
         name: 'basetable',
