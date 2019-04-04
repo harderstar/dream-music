@@ -10,13 +10,13 @@ import java.util.List;
 
 public interface ProgrameMapper {
 
-    @Select("select * from programe")
+    @Select("select * from programe  ORDER BY id DESC")
     public List<ProgrameListEnt> queryProgrames();
 
-    @Select("select id,value,is_parent,parent_id from programe")
+    @Select("select id,value,is_parent,parent_id from programe " )
     public List<ProgrameTreeEnt> quertTrees();
 
-    @Select("select * from programe where parent_id = #{parentId}")
+    @Select("select * from programe where parent_id = #{parentId}  ORDER BY id DESC")
     public List<ProgrameListEnt> queryProgramesByParentId(Integer parentId);
 
 

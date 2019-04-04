@@ -18,61 +18,55 @@ public class MusicAddEnt implements Serializable {
     private Double size;
     private Integer like;
     private Integer download;
+    private String downloadUrl;
     private String danceTemplate;
     private Date uptime;
     private Integer commit;
     private Integer recommend;
+    private String photo;
+    private Integer downloadNum;
+    private Integer collect;
+    private String composer;
 
-    public MusicAddEnt() {
+
+    public String getDownloadUrl() {
+        return downloadUrl;
     }
 
-    public MusicAddEnt(Integer id, String name, List<SingerEnt> singers, String album, List<LabelListEnt> labels, String auditionUrl, String lyric, String image, Integer popularity, Double size, Integer like, Integer download, String danceTemplate, Date uptime, Integer commit, Integer recommend) {
-        this.id = id;
-        this.name = name;
-        this.singers = singers;
-        this.album = album;
-        this.labels = labels;
-        this.auditionUrl = auditionUrl;
-        this.lyric = lyric;
-        this.image = image;
-        this.popularity = popularity;
-        this.size = size;
-        this.like = like;
-        this.download = download;
-        this.danceTemplate = danceTemplate;
-        this.uptime = uptime;
-        this.commit = commit;
-        this.recommend = recommend;
+    public void setDownloadUrl(String downloadUrl) {
+        this.downloadUrl = downloadUrl;
     }
 
-    @Override
-    public String toString() {
-        return "MusicAddEnt{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", singers=" + singers +
-                ", album='" + album + '\'' +
-                ", labels=" + labels +
-                ", auditionUrl='" + auditionUrl + '\'' +
-                ", lyric='" + lyric + '\'' +
-                ", image='" + image + '\'' +
-                ", popularity=" + popularity +
-                ", size=" + size +
-                ", like=" + like +
-                ", download=" + download +
-                ", danceTemplate='" + danceTemplate + '\'' +
-                ", uptime=" + uptime +
-                ", commit=" + commit +
-                ", recommend=" + recommend +
-                '}';
+    public String getComposer() {
+        return composer;
     }
 
-    public List<LabelListEnt> getLabels() {
-        return labels;
+    public void setComposer(String composer) {
+        this.composer = composer;
     }
 
-    public void setLabels(List<LabelListEnt> labels) {
-        this.labels = labels;
+    public Integer getCollect() {
+        return collect;
+    }
+
+    public void setCollect(Integer collect) {
+        this.collect = collect;
+    }
+
+    public Integer getDownloadNum() {
+        return downloadNum;
+    }
+
+    public void setDownloadNum(Integer downloadNum) {
+        this.downloadNum = downloadNum;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 
     public Integer getId() {
@@ -105,6 +99,14 @@ public class MusicAddEnt implements Serializable {
 
     public void setAlbum(String album) {
         this.album = album;
+    }
+
+    public List<LabelListEnt> getLabels() {
+        return labels;
+    }
+
+    public void setLabels(List<LabelListEnt> labels) {
+        this.labels = labels;
     }
 
     public String getAuditionUrl() {

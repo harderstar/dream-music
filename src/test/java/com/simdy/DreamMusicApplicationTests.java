@@ -2,6 +2,7 @@ package com.simdy;
 
 import com.simdy.cms.Static.TreeTraverse;
 import com.simdy.cms.entity.base.CommentListEnt;
+import com.simdy.cms.entity.base.MusicListEnt;
 import com.simdy.cms.entity.base.ProgrameTreeEnt;
 import com.simdy.cms.entity.base.UserViewEnt;
 import com.simdy.cms.entity.tree.TreeEnt;
@@ -35,8 +36,13 @@ public class DreamMusicApplicationTests {
     @Autowired
     UserMapper userMapper;
 
+
     @Test
     public void contextLoads() {
+        for (MusicListEnt a : musicMapper.queryMusicByKey("a")) {
+            System.out.println(a);
+        }
+        ;
     }
 
     @Test

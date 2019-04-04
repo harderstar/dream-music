@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface VipMapper {
 
-    @Select("select * from vip")
+    @Select("select * from vip  ORDER BY id DESC" )
     public List<VipEnt> queryVips();
 
     @Select("select * from vip where id = #{id}")

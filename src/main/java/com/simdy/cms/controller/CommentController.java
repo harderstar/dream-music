@@ -2,10 +2,7 @@ package com.simdy.cms.controller;
 
 import com.simdy.cms.Static.ResponseMessage;
 import com.simdy.cms.Static.TreeTraverse;
-import com.simdy.cms.entity.base.CommentAddEnt;
-import com.simdy.cms.entity.base.CommentListEnt;
-import com.simdy.cms.entity.base.ProgrameListEnt;
-import com.simdy.cms.entity.base.ProgrameTreeEnt;
+import com.simdy.cms.entity.base.*;
 import com.simdy.cms.entity.tree.TreeEnt;
 import com.simdy.cms.mapper.ProgrameMapper;
 import com.simdy.cms.service.CommentService;
@@ -146,7 +143,7 @@ public class CommentController {
      * @return
      */
     @PostMapping("updateCom")
-    public String updateComment(CommentAddEnt commentAddEnt,HttpServletResponse response,HttpServletRequest request){
+    public String updateComment(@RequestBody CommentAddEnt commentAddEnt,HttpServletResponse response,HttpServletRequest request){
         ResponseMessage.DEAL_CROSS_DOMAIN(response,request);
         if( commentService.updateComment(commentAddEnt)){
             return ResponseMessage.SUCCESS_MESSAGE;

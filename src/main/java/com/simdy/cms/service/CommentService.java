@@ -14,10 +14,7 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class CommentService {
@@ -55,10 +52,10 @@ public class CommentService {
      * @param commentAddEnt
      * @return
      */
-    @CachePut( key="#commentAddEnt.id")
     public Boolean updateComment(CommentAddEnt commentAddEnt){
         System.out.println(commentAddEnt);
         if(commentAddEnt.getId() == null){
+            commentAddEnt.setUptime(new Date());
             Integer comment = commentMapper.insertComment(commentAddEnt);
             if(comment == 1)
                 return true;
@@ -78,7 +75,6 @@ public class CommentService {
      * @param id
      * @return
      */
-    @CacheEvict( key = "#id")
     public Boolean deleteConmentById(Integer id){
         if(commentMapper.deleteCommentById(id) == 0)
             return false;
@@ -91,7 +87,6 @@ public class CommentService {
      * @param modelLocation
      * @return
      */
-    @Cacheable(cacheNames = "contents")
     public Map<String,List<CommentListEnt>> queryCommentsByProModelLocation(String modelLocation){
         ProgrameListEnt programe = commentMapper.queryProIdBymodelLocation(modelLocation);
         List<ProgrameTreeEnt> treeEnts = programeMapper.quertTrees();

@@ -112,6 +112,7 @@ public class MusicController {
 
     @PostMapping("updateMusic")
     public String updateMusic(@RequestBody MusicAddEnt musicAddEnt){
+        System.out.println(musicAddEnt);
         if(musicService.updateMusic(musicAddEnt))
             return ResponseMessage.SUCCESS_MESSAGE;
         return ResponseMessage.ERROR_MESSAGE;
@@ -125,5 +126,8 @@ public class MusicController {
         else
             return ResponseMessage.ERROR_MESSAGE;
     }
-
+    @GetMapping("queryMusicsByKey/{key}")
+    public List<MusicListEnt> queryMusicsByKey(@PathVariable("key") String key){
+        return musicService.queryMusicByKey(key);
+    }
 }

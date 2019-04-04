@@ -11,10 +11,10 @@ import java.util.List;
 
 public interface LabelMapper {
 
-    @Select("select * from label ")
+    @Select("select * from label  ORDER BY id DESC")
     public List<LabelListEnt> queryLabels();
 
-    @Select("select id,name,is_cash as isCash,is_tip as isTip,cash_num as cashNum from label where id =#{id}")
+    @Select("select id,name,is_cash as isCash,is_tip as isTip,cash_num as cashNum from label where id =#{id} ")
     public LabelAddEnt queryLabelById(Integer id);
 
     @Insert("insert into label (name,is_cash,is_tip,cash_num) value(#{name},#{isCash},#{isTip},#{cashNum})")

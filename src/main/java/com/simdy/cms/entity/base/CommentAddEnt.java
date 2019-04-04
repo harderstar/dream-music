@@ -6,7 +6,7 @@ import java.util.Date;
 public class CommentAddEnt implements Serializable {
 
     private Integer id;
-    private Integer programe;
+    private Integer programeId;
     private String type;
     private Integer stickLevel;
     private String issuer;
@@ -19,15 +19,11 @@ public class CommentAddEnt implements Serializable {
     private String digest;
     private String commentImage;
     private String detail;
-    private Integer music;
+    private Integer musicId;
 
-    public CommentAddEnt() {
-    }
-
-    public CommentAddEnt(Integer music,Integer id, Integer programe, String type, Integer stickLevel, String issuer, String title, String subtitle, String titleColor, Integer commit, Date uptime, String externalLink, String digest, String commentImage, String detail) {
-        this.music = music;
+    public CommentAddEnt(Integer id, Integer programeId, String type, Integer stickLevel, String issuer, String title, String subtitle, String titleColor, Integer commit, Date uptime, String externalLink, String digest, String commentImage, String detail, Integer musicId) {
         this.id = id;
-        this.programe = programe;
+        this.programeId = programeId;
         this.type = type;
         this.stickLevel = stickLevel;
         this.issuer = issuer;
@@ -40,14 +36,26 @@ public class CommentAddEnt implements Serializable {
         this.digest = digest;
         this.commentImage = commentImage;
         this.detail = detail;
+        this.musicId = musicId;
     }
 
-    public Integer getMusic() {
-        return music;
+    public Integer getProgrameId() {
+        return programeId;
     }
 
-    public void setMusic(Integer music) {
-        this.music = music;
+    public void setProgrameId(Integer programeId) {
+        this.programeId = programeId;
+    }
+
+    public CommentAddEnt() {
+    }
+
+    public Integer getMusicId() {
+        return musicId;
+    }
+
+    public void setMusicId(Integer musicId) {
+        this.musicId = musicId;
     }
 
     public Integer getId() {
@@ -58,13 +66,6 @@ public class CommentAddEnt implements Serializable {
         this.id = id;
     }
 
-    public Integer getPrograme() {
-        return programe;
-    }
-
-    public void setPrograme(Integer programe) {
-        this.programe = programe;
-    }
 
     public String getType() {
         return type;
@@ -160,5 +161,26 @@ public class CommentAddEnt implements Serializable {
 
     public void setDetail(String detail) {
         this.detail = detail;
+    }
+
+    @Override
+    public String toString() {
+        return "CommentAddEnt{" +
+                "id=" + id +
+                ", programe=" + programeId +
+                ", type='" + type + '\'' +
+                ", stickLevel=" + stickLevel +
+                ", issuer='" + issuer + '\'' +
+                ", title='" + title + '\'' +
+                ", subtitle='" + subtitle + '\'' +
+                ", titleColor='" + titleColor + '\'' +
+                ", commit=" + commit +
+                ", uptime=" + uptime +
+                ", externalLink='" + externalLink + '\'' +
+                ", digest='" + digest + '\'' +
+                ", commentImage='" + commentImage + '\'' +
+                ", detail='" + detail + '\'' +
+                ", musicId=" + musicId +
+                '}';
     }
 }

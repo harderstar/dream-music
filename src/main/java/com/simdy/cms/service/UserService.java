@@ -86,9 +86,7 @@ public class UserService {
          System.out.println(page+" "+pagesize);
          PageHelper.startPage(page,pagesize);   //第一个参数是从第几个数据开始，第二个是每页显示几条数据
          List<UserViewEnt>  findListMenus = userMapper.queryUsers();
-          for(int i=0;i<findListMenus.size();i++){
-              System.out.println(findListMenus.get(i));
-          }
+
         return findListMenus;
     }
 
