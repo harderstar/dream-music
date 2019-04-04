@@ -68,6 +68,7 @@
         getContents,
         deleteContent,
         updateCom,
+        getContent
     } from "@/api/api";
     export default {
         name: 'ContentTable',
@@ -144,7 +145,7 @@
             },
             handleAdd(){
                 this.formInitialData = {
-                    programaId:this.programaId,
+                    programeId:this.programaId,
                     programaName:this.programaName,
                 };
                 this.idx = this.tableData.length;
@@ -153,19 +154,21 @@
             handleFormSubmit(formData){
                 this.form = formData;
                 this.saveEdit();
+ 
             },
             handleEdit(index, row) {
                 const item = this.tableData[index];
                 this.id = item.id
                 this.idx = index;
                 console.log("item: ",item);
-                // this.getFormInitialData(this.id).then((res)=>{
-                //     console.log(res);
-                //     this.formInitialData = res;
-                //     this.editVisible = true;
-                // })
-                this.formInitialData = item;
-                this.editVisible = true;
+                this.$axios.get(getContent+this.id).then((res)=>{
+                    console.log(res);
+                    this.formInitialData = res.data;
+                    this.formInitialData.programaName = item.programe.value
+                    this.editVisible = true;
+                })
+                 console.log(this.formInitialData)
+                //this.formInitialData = item;
             },
             handleDelete(index, row) {
                 this.idx = index;
@@ -202,8 +205,7 @@
                     this.editVisible = false;
                     this.$set(this.tableData, this.idx, this.form);
                     this.$message.success(`编辑成功`);
-                    this.editVisible = true;
-                }).catch(err=>{
+                 }).catch(err=>{
                     this.$message.error(`编辑失败`);
                 });
             },

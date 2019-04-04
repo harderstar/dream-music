@@ -29,10 +29,9 @@
                     </el-form-item>
                     <el-form-item label="类型">
                         <el-select v-model="form.region" placeholder="请选择">
-                            <el-option key="bbk" label="步步高" value="bbk"></el-option>
-                            <el-option key="xtc" label="小天才" value="xtc"></el-option>
-                            <el-option key="imoo" label="imoo" value="imoo"></el-option>
-                        </el-select>
+                            <el-option key="bbk" label="音乐" value="bbk"></el-option>
+                            <el-option key="xtc" label="新闻" value="xtc"></el-option>
+                         </el-select>
                     </el-form-item>
                     <el-form-item label="上传时间">
                         <el-date-picker :value="form.uptime" disabled ></el-date-picker> 
@@ -98,8 +97,9 @@
         },
         data(){
             return {
-                form: {
-                    programaId:null,//栏目的id
+                form:{
+                    programeId:'',
+                    programa:null,//栏目的id
                     programaName:"",//栏目的名字
                     title: '',//标题
                     titleColor: '',//标题颜色
@@ -116,10 +116,12 @@
                 label:"value",
                 value:"id",
                 upload,
+                musicsList:[]
             }
         },
         methods: {
             handleSubmit() {
+                console.log(this.form)
                 console.log('form: ',this.form);
                 this.$emit("onFormSubmit",this.form);
             },
@@ -133,8 +135,12 @@
             remoteFetch(query){
                 if(query!==""){
                     this.loading = true;
+                    
                 }
             }
+        },
+        created:{
+            
         },
         watch:{
             initialData:{

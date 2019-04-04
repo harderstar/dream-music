@@ -1,5 +1,5 @@
-var url = "http://localhost:8081/manager/";
- // var url = "http://203.195.237.37:8081/manager/"
+// var url = "http://localhost:8081/manager/";
+ var url = "http://203.195.237.37:8081/manager/"
  var userLogin = url+'userLogin';
  var getPros = url+'getPros';
  var getTree = url+'getTree';

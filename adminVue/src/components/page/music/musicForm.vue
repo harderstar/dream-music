@@ -126,6 +126,7 @@
                     commit: null,
                     danceTemplate: null,
                     download: null,
+                    downloadUrl:null,
                     id: 1,
                     image: null,
                     labels: [],
@@ -162,7 +163,7 @@
             },
             handleMusicSuccess(response,file,fileList){
                 console.log('music response: ',response);
-                this.form.download = response.message;
+                this.form.downloadUrl = response.message;
             },
             handleRemove(){
 
