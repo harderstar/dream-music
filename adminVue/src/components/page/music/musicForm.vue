@@ -66,24 +66,36 @@
                         <el-input v-model="form.commit"></el-input>
                     </el-form-item>
                   
-                    <el-form-item label="上传歌曲">
+                    <el-form-item label="上传图片">
                         <el-upload
                             ref="upload"
                             :action="upload"
-                            name="picture"
                             list-type="picture-card"
                             :limit="1"
-                            :file-list="fileList"
-                            :on-success="handleSuccess"
+                            name="picture"
+                            :on-success="handleImgSuccess"
                             :on-remove="handleRemove"
                         >
                             <i class="el-icon-plus"></i>
                         </el-upload>
                     </el-form-item>
+
+                    <el-form-item label="上传歌曲">
+                        <el-upload
+                            ref="uploadMusic"
+                            :action="upload"
+                            :limit="1"
+                            name="picture"
+                            :on-success="handleMusicSuccess"
+                            :on-remove="handleRemove"
+                        >
+                            <el-button size="small" type="primary">点击上传歌曲</el-button>
+                        </el-upload>
+                    </el-form-item>
+
                     <el-dialog :visible.sync="dialogVisible">
                         <img width="100%" :src="dialogImageUrl" alt="">
                     </el-dialog>
-                    <vue-editor> </vue-editor>
                     <el-form-item>
                         <el-button type="primary" @click="onSubmit">表单提交</el-button>
                         <el-button>取消</el-button>
@@ -102,22 +114,35 @@
         getSingers,
         getLabels,
     } from "@/api/api";
-    import VueEditor from "@/components/page/VueEditor.vue";
     export default {
         props:["initialData"],
         name: 'Musicform',
-        components:{
-            VueEditor
-        },
         data(){
             return {
                 options:[],
-                form: {},//表单数据
+                form: {
+                    album: null,
+                    auditionUrl: "",
+                    commit: null,
+                    danceTemplate: null,
+                    download: null,
+                    id: 1,
+                    image: null,
+                    labels: [],
+                    like: 0,
+                    lyric: "",
+                    name: "",
+                    popularity: 0,
+                    recommend: null,
+                    singers: [],
+                    size: 0,
+                    uptime: null,
+                },//表单数据
                 singerData:[],//歌手列表
                 tagData:[],//标签列表
                 label:"value",
                 value:"id",
-                upload:upload,
+                upload,
                 fileList:[],
                 dialogVisible:false,
                 dialogImageUrl:"",
@@ -131,8 +156,13 @@
             handleCurrentChange(){
 
             },
-            handleSuccess(){
-
+            handleImgSuccess(response,file,fileList){
+                console.log('img response: ',response);
+                this.form.image = response.message;
+            },
+            handleMusicSuccess(response,file,fileList){
+                console.log('music response: ',response);
+                this.form.download = response.message;
             },
             handleRemove(){
 
